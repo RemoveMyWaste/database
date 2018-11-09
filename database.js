@@ -230,13 +230,13 @@ app.get('/',function(req,res,next){
                     }
                     context.hazards = rows;
 
-                sql = 'SELECT COUNT(*) AS num FROM locations';
+                sql = 'SELECT COUNT(*) AS num FROM schedules';
                 mysql.pool.query(sql, function(err, rows, fields){
                     if(err){
                         next(err);
                         return;
                     }
-                    context.locations = rows;
+                    context.schedules = rows;
                     res.render('home', context);
                 });
                 });
