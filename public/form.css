@@ -1,0 +1,199 @@
+/* author: liam beckman */
+/* cs290 web develpment */
+/* assignment 1: html/css */
+/* created 2018-04-08 */
+/* updated 2018-04-14 */
+/* additional sources: /*
+/* http://jsfiddle.net/gaby/9Ryvs/7/ */
+/* https://web.archive.org/web/20180107091330/http://sshtron.zachlatta.com/ */
+
+
+table{
+    border-spacing: 0px;
+    width:50%;
+    //border-bottom: 1px dashed grey;
+    padding-bottom: 2em;
+    padding-top: 1em;
+}
+
+th, td {
+    color: #2a2730;
+    padding: 1em;
+    min-width:4em;
+    border: 1px dashed white;
+    text-align: center;
+}
+
+td.footer {
+    color: #2a2730;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 0.2em;
+    background-color: white
+}
+
+tr:nth-of-type(even) {
+    background-color: #ddd;
+}
+
+tr:nth-of-type(odd) {
+    background-color: #b7d0fe99;
+    //background-color: lavender;
+}
+
+th {
+    //border: none;
+}
+
+/*
+th {
+    background-color: white;
+}
+*/
+
+.oblique {
+    font-style:oblique;
+}
+
+dt {
+    color: #2a2730;
+    font-weight:bold;
+    padding-top: 1em;
+    padding-left: 2em;
+}
+
+dd:before {
+    content:'→ ';
+    padding-left: 2em;
+}
+
+.outer-content {
+    text-align: left;
+    width: 75%;
+    margin-top: 20px;
+    background-color: #ff357a;
+    color: white;
+    font-family: mono;
+    padding-bottom: 1.3em;
+}
+
+p.outer {
+    margin: 0em;
+}
+
+p.inner {
+    margin: 0em;
+    padding: 0em;
+}
+
+.inner-content {
+    background-color: cornflowerblue;
+    text-align: center;
+    width: 75%;
+    color: white;
+    font-family: mono;
+    margin: auto;
+}
+
+textarea {
+    color: grey;
+}
+
+hr {
+   border: none;
+    border-top: 1px dashed grey;
+    width: 50%;
+    margin-left: 0;
+}
+
+.spin {
+    height: 5em;
+}
+
+/* https://web.archive.org/web/20180107091330/http://sshtron.zachlatta.com/ */
+.no-copy {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* http://jsfiddle.net/gaby/9Ryvs/7/ */
+.spin:hover {
+
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(359deg);
+    }
+}
+
+input {
+   background-color: lemonchiffon;
+   border: 1px solid lightgrey;
+   padding: 1em 2em;
+   text-decoration: none;
+   margin: 0.4em;
+   cursor: pointer;
+   border-radius: 2em;
+   width: 25%;
+   text-align: center;
+}
+
+input.buttonEdit, input.buttonDelete, input.submit {
+    width: 100%;
+    background-color: lemonchiffon;
+    border: none;
+    padding: 1em 2em;
+    text-decoration: none;
+    margin: 0.4em;
+    cursor: pointer;
+    border-radius: 2em;
+}
+
+input.addsrc, input.addauthor, input.addprogram, input.addos {
+    width: 1.3em;
+    background-color: lightgrey;
+    padding: 1em;
+    border: 1px dashed grey;
+}
+
+input.buttonDelete:hover, input.buttonEdit:hover, input.submit:hover {
+    background-color: #AD84C7;
+    color: white;
+    //font-weight: bold;
+}
+
+input.submit {
+    width: 40%;
+    border: 1px solid lightgrey;
+}
+
+fieldset {
+    border: 1px dashed grey;
+    margin-bottom: 4em;
+}
+
+label {
+    display: block;
+}
+
+pre {
+    display: inline;
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+div.border {
+    border: 1px dashed grey;
+    padding: 1em;
+}

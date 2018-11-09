@@ -1,0 +1,126 @@
+{{error}}
+
+
+<h2>users </h2>
+<p>⇢ virtual users</p>
+<br />
+<br />
+
+
+<form action="/insert" method="get">
+  <fieldset>
+    <legend>add new user</legend>
+    <label>
+      <span class="name">name</span>
+      <span> ⇢ </span>
+      <input size="20" name="name" placeholder="A. Cool Guy" id="name" type="text_input">
+    </label>
+    <label>
+      <span class="name">password</span>
+      <span> ⇢ </span>
+      <input size="20" name="password" placeholder="12345" id="password" type="text_input">
+    </label>
+    <label>
+      <span class="name">notifications</span>
+      <span> ⇢ </span>
+      <input size="20" name="notifications" id="notifications" type="checkbox">
+    </label>
+    <input class="submit" value="Submit" type="submit">
+  </fieldset>
+</form>
+
+
+<table>
+  <tr>
+    <th>name</th>
+    <th>password</th>
+    <th>notifications</th>
+  </tr>
+  {{#each users}}
+  <tr>
+    <td>{{name}}</td>
+    <td>{{password}}</td>
+    <td>{{notifications}}</td>
+    <td>
+      <form action="/edit-users" method="get">
+        <input value="Edit" class="buttonEdit" type="submit">
+        <input name="table" value="user" class="hidden-table" type="hidden">
+        <input name="id" value={{id}} class="hidden" type="hidden">
+      </form>
+      <form action="/delete" method="get">
+        <input value="Delete" class="buttonDelete" type="submit">
+        <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+
+
+
+<script>
+  // wait until the DOM before starting buttons
+  document.addEventListener('DOMContentLoaded', bindButtons);
+
+
+  function bindButtons(){
+
+  let buttonsSubmit = document.getElementsByClassName('submit');
+
+  for (let i = 0; i < buttonsSubmit.length; i++) {
+                      buttonsSubmit[i].addEventListener('click', function(event){
+                      //console.log("adding ev to submit button");
+                      var req = new XMLHttpRequest();
+                      event.preventDefault();
+
+                      let username = document.getElementById("name").value;
+                      //console.log("@@ username:", username);
+
+                      let userpassword = document.getElementById("password").value;
+                      //console.log("@@ userpassword:", userpassword);
+
+                      req.open('GET', '/insert?table=users&name= ' + username + "&password=" + userpassword, true);
+                      req.onload = function() {
+                      let res = req.responseText;
+                      //update();
+                      location.reload();
+                      }
+
+                      event.preventDefault();
+                      req.send(null);
+
+
+                      });
+                      }
+
+                      // hidden row id
+                      let buttonsHidden = document.getElementsByClassName("hidden");
+
+
+                      let buttonsDelete = document.getElementsByClassName("buttonDelete");
+
+                      for (let i = 0; i < buttonsDelete.length; i++) {
+                                          console.log(buttonsHidden[i]);
+                                          buttonsDelete[i].addEventListener('click', function(event){;
+                                          console.log("adding ev to delete button");
+                                          event.preventDefault();
+                                          var req = new XMLHttpRequest();
+
+                                          console.log("/delete?table={{table}}&id=" + buttonsHidden[i].value);
+                                          req.open('GET', '/delete?table={{table}}&id=' + buttonsHidden[i].value, true);
+
+                                          req.onload = function() {
+                                          let res = req.responseText;
+                                          location.reload();
+                                          }
+
+                                          req.send(null);
+                                          });
+                                          };
+                                          }
+
+
+                                          </script>
+
+<!--<script src="tabler.js"></script>-->
+
+

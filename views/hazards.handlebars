@@ -1,0 +1,155 @@
+{{error}}
+
+
+<h2>hazards </h2>
+<p>⇢ hazards and handling instructions</p>
+<br />
+<br />
+
+
+<form action="/insert" method="get">
+<fieldset>
+  <legend>add new hazard and handling instructions</legend>
+    <label>
+        <span class="name">hazards</span>
+        <span> ⇢ </span>
+        <input size="20" name="hazards" placeholder="explodes" id="hazards" type="text_input">
+    </label>
+    <label>
+        <span class="name">handling instructions</span>
+        <span> ⇢ </span>
+        <input size="20" name="handling" id="handling" placeholder="keep from fire" type="text_input">
+    </label>
+  <input class="submit" value="Submit" type="submit">
+</fieldset>
+</form>
+
+
+<table>
+  <tr>
+    <th>hazards</th>
+    <th>handling instructions</th>
+  </tr>
+  {{#each hazards}}
+  <tr>
+    <td>{{hazards}}</td>
+    <td>{{handling}}</td>
+    <td>
+    <form action="/edit-user" method="get">
+    <input value="Edit" class="buttonEdit" type="submit">
+    <input name="table" value="user" class="hidden-table" type="hidden">
+    <input name="id" value={{id}} class="hidden" type="hidden">
+    </form>
+    <form action="/delete" method="get">
+    <input value="Delete" class="buttonDelete" type="submit">
+    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+
+
+
+<script>
+// wait until the DOM before starting buttons
+document.addEventListener('DOMContentLoaded', bindButtons);
+document.addEventListener('DOMContentLoaded', addlocation);
+
+let srccount = 0;
+
+function addlocation(){
+
+    let adds = document.getElementsByClassName('addlocation');
+    let locationparent = document.getElementById('srcparent');
+
+    for (let i = locationcount; i < adds.length; i++) {
+        adds[i].addEventListener('click', function(event){
+
+        let addold = document.getElementById('addlocation');
+        let location = document.getElementById('src');
+        console.log("location: ", src);
+
+        let addnew = location.cloneNode(true);
+        locationparent.appendChild(addnew);
+        locationcount += 1;
+        addlocation(srccount);
+
+        });
+    }
+}
+
+
+function bindButtons(){
+
+    let buttonsSubmit = document.getElementsByClassName('submit');
+
+    for (let i = 0; i < buttonsSubmit.length; i++) {
+        buttonsSubmit[i].addEventListener('click', function(event){
+            //console.log("adding ev to submit button");
+            var req = new XMLHttpRequest();
+            event.preventDefault();
+
+            let userName = document.getElementById("name").value;
+            //console.log("@@ userName:", userName);
+
+            let userpurpose = document.getElementById("purpose").value;
+            //console.log("@@ userpurpose:", userpurpose);
+
+            let userurl = document.getElementById("url").value;
+
+            let userversion = document.getElementById("version").value;
+            //console.log("@@ userversion:", userversion);
+
+            let userlicense = document.getElementById("license").value;
+
+            //console.log("@@ userlicense:", userlicense);
+
+            //let userretrieved = document.getElementById("retrieved").value;
+            //console.log("@@ userretrieved:", userretrieved);
+            //console.log('/insert?name=' + userName + "&purpose=" + userpurpose + "&version=" + userversion + "&license=" + userlicense + "&retrieved=" + userretrieved);
+            req.open('GET', '/insert?table=user&name= ' + userName + "&purpose=" + userpurpose + "&url=" + userurl + "&version=" + userversion + "&license=" + userlicense + "&pid=" + 1, true);
+            req.onload = function() {
+                let res = req.responseText;
+                //update();
+                location.reload();
+            }
+
+            event.preventDefault();
+            req.send(null);
+
+
+        });
+    }
+
+        // hidden row id
+        let buttonsHidden = document.getElementsByClassName("hidden");
+
+
+        let buttonsDelete = document.getElementsByClassName("buttonDelete");
+
+        for (let i = 0; i < buttonsDelete.length; i++) {
+        console.log(buttonsHidden[i]);
+        buttonsDelete[i].addEventListener('click', function(event){;
+            console.log("adding ev to delete button");
+            event.preventDefault();
+            var req = new XMLHttpRequest();
+
+            console.log("/delete?table={{table}}&id=" + buttonsHidden[i].value);
+            req.open('GET', '/delete?table={{table}}&id=' + buttonsHidden[i].value, true);
+
+            req.onload = function() {
+                let res = req.responseText;
+                location.reload();
+            }
+
+            req.send(null);
+        });
+    };
+}
+
+
+</script>
+
+<!--<script src="tabler.js"></script>-->
+
+
