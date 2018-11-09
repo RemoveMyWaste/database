@@ -64,8 +64,8 @@ CREATE TABLE centers(
 CREATE TABLE schedules(
     id int(10) NOT NULL AUTO_INCREMENT,
     day_of_week int(1),
-    time_open varchar(255),
-    time_closed varchar(255),
+    time_open TIME,
+    time_closed TIME,
 
     cid int(10) NOT NULL,
     FOREIGN KEY(cid) REFERENCES centers(id),
@@ -86,7 +86,7 @@ CREATE TABLE users(
     id int(10) NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     -- TODO: add location attribute
-	-- TODO: salt and hash password
+    -- TODO: salt and hash password
     password varchar(255),
     notifications boolean,
     PRIMARY KEY(id)
@@ -117,12 +117,26 @@ INSERT INTO materials(name, rating) values("lead", 1);
 INSERT INTO materials(name, rating) values("tv", 2);
 INSERT INTO materials(name, rating) values("cell phone", 3);
 INSERT INTO materials(name, rating) values("motor oil", 4);
-INSERT INTO materials(name, rating) values("paint", 5); 
+INSERT INTO materials(name, rating) values("paint", 5);
 
 
 -- populate table of centers
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) values("Devilish Disposal", 666, "W", "hell", "highway", "hell", "Oregon", "66666");
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) values("Cool Disposal Inc.", 123, "S", "cool", "street", "coolsville", "Oregon", "12345");
+
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (1, '09:00', '17:00', 1);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (2, '09:00', '17:00', 1);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (3, '09:00', '17:00', 1);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (4, '09:00', '17:00', 1);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (5, '09:00', '17:00', 1);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (6, '09:00', '17:00', 1);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (7, '09:00', '17:00', 1);
+
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (2, '06:00', '18:00', 2);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (3, '06:00', '18:00', 2);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (4, '06:00', '18:00', 2);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (5, '06:00', '18:00', 2);
+INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (6, '06:00', '18:00', 2);
 
 --INSERT INTO locations(street_number, street_direction, street_name, street_type, city, state, zip) values(999, "N", "sweet", "street", "radplace", "California", "99999");
 --INSERT INTO locations(street_number, street_direction, street_name, street_type, city, state, zip) values(987, "SW", "bodacious", "boulevard", "illville", "Washingotn", "98765");

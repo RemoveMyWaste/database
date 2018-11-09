@@ -67,20 +67,31 @@ app.get('/search',function(req,res,next){
                     }
                     context.hazards = rows; //JSON.stringify(rows);
 
-
-                    sql = `SELECT DISTINCT C.id AS cid, U.id AS uid, C.name AS cname, U.name AS uname FROM users_centers UC INNER JOIN users U ON UC.cid = U.id INNER JOIN centers C ON UC.cid = C.id WHERE (U.name LIKE "%"?"%") OR (C.name LIKE "%"?"%")`;
-                    inserts = [req.query.search, req.query.search];
+                    sql = `SELECT * FROM schedules WHERE (schedules.day_of_week LIKE "%"?"%")`;
+                    inserts = [req.query.search];
 
                     mysql.pool.query(sql,inserts, function(err, rows, fields){
                         if(err){
                             next(err);
                             return;
                         }
-                        context.users_centers = rows; //JSON.stringify(rows);
+                        context.schedules = rows; //JSON.stringify(rows);
 
 
-                        console.log("myresults: " + JSON.stringify(context));
-                        res.render('search', context);
+                        sql = `SELECT DISTINCT C.id AS cid, U.id AS uid, C.name AS cname, U.name AS uname FROM users_centers UC INNER JOIN users U ON UC.cid = U.id INNER JOIN centers C ON UC.cid = C.id WHERE (U.name LIKE "%"?"%") OR (C.name LIKE "%"?"%")`;
+                        inserts = [req.query.search, req.query.search];
+
+                        mysql.pool.query(sql,inserts, function(err, rows, fields){
+                            if(err){
+                                next(err);
+                                return;
+                            }
+                            context.users_centers = rows; //JSON.stringify(rows);
+
+
+                            console.log("myresults: " + JSON.stringify(context));
+                            res.render('search', context);
+                        });
                     });
                 });
             });
@@ -156,6 +167,37 @@ app.get('/hazards',function(req,res,next){
     });
 });
 
+
+// home page (GET request)
+app.get('/schedules',function(req,res,next){
+    var context = {};
+    sql = `
+            SELECT S.day_of_week, S.time_open, S.time_closed, C.name as centers,
+            CASE
+                WHEN S.day_of_week = 1 THEN "Sunday"
+                WHEN S.day_of_week = 2 THEN "Monday"
+                WHEN S.day_of_week = 3 THEN "Tuesday"
+                WHEN S.day_of_week = 4 THEN "Wednesday"
+                WHEN S.day_of_week = 5 THEN "Thursday"
+                WHEN S.day_of_week = 6 THEN "Friday"
+                WHEN S.day_of_week = 7 THEN "Saturday"
+                ELSE "invalid day number"
+            END AS day_of_week
+            FROM centers C INNER JOIN schedules S ON C.id = S.cid`;
+
+
+        //sql = 'SELECT * FROM schedules';
+        mysql.pool.query(sql, function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+
+            context.table = "schedules";
+            context.schedules = rows;
+            res.render('schedules', context);
+        });
+});
 
 // home page (GET request)
 app.get('/program-author',function(req,res,next){
@@ -356,7 +398,7 @@ app.get('/insert',function(req,res,next){
 app.get('/delete',function(req,res,next){
     var context = {};
     sql= "DELETE FROM ?? WHERE id=?";
-    inserts = [req.query.table, req.query.id]; 
+    inserts = [req.query.table, req.query.id];
     console.log("sql: " + sql);
     console.log("inserts: " + inserts);
     mysql.pool.query(sql, inserts, function(err, result){
@@ -435,7 +477,7 @@ app.get('/safe-update',function(req,res,next){
                 console.log("update pid: ", req.query.pid);
             }
 
-            
+
 
             mysql.pool.query(sql, inserts, function(err, result){
                 if(err){
@@ -472,7 +514,7 @@ app.get('/safe-update-pl',function(req,res,next){
             console.log("update query.pidnew: ", req.query.pidnew);
             console.log("update query.lidnew: ", req.query.lidnew);
 
-            
+
 
             mysql.pool.query(sql, inserts, function(err, result){
                 if(err){
