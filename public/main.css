@@ -1,0 +1,232 @@
+.name {
+    display: inline-block;
+    text-align: center;
+}
+
+h1 {
+    text-decoration: underline dotted #4502cc;
+}
+
+/*
+span {
+    padding: 0.5em;
+}
+*/
+
+body {
+    margin: 0;
+    background-color: snow;
+}
+
+p, h1, h2, h3, span {
+    color: #4502cc;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a {
+    color: #FF357A;
+    text-decoration: none;
+}
+
+.poem {
+    font-weight: bold;
+    color: grey;
+}
+
+#results {
+    display: none;
+}
+
+.top .search-container {
+    float: right;
+}
+
+.search {
+    width: 30em;
+    background-color: lavenderblush;
+    border: 1px solid pink;
+}
+
+
+img {
+    //width: 50%;
+    //margin-left: auto;
+    //margin-right: auto;
+    //display: block;
+    //border: 1px dashed grey;
+}
+
+hr {
+    margin: 2em;
+    border-bottom: 1px dashed #99979c;
+    border-top: 0px;
+}
+
+select {
+    background-color: lemonchiffon;
+    border: 1px solid lightgrey;
+    padding: 1em 2em;
+    text-decoration: none;
+    margin: 0.4em;
+    cursor: pointer;
+    //border-radius: 2em;
+    //width: 20%;
+    text-align: center;
+}
+
+.popstripe {
+    height: 0.8%;
+    background-size: 100%;
+    background-image: linear-gradient(to right, #DB37C4 0%, #DB37C4 20%, #ED68D9 20%, #ED68D9 40%, #49CCD4 40%, #49CCD4 60%, #678CFA 60%, #678CFA 80%, #4635F7 80%, #4635F7 100%);
+}
+
+.popstripe-bw {
+    height: 1%;
+    background-size: 100%;
+    background-image: linear-gradient(to right, #191917 0%, #191917 20%, #6D7564 20%, #6D7564 40%, #363436 40%, #363436 60%, #7F7F7D 60%, #7F7F7D 80%, #363634 80%, #363634 100%);
+}
+
+.geDiagramContainer {
+
+    margin: auto;
+    margin-top: auto;
+    display: block;
+
+}
+
+
+ul {
+    display: inline;
+    color: #4502cc;
+list-style: none;
+}
+
+
+.title {
+ font-style: italic;
+}
+
+.tech {
+    color: inherit;
+}
+
+
+/***************************************************/
+/* HACK TO HAVE THE FOOTER STAY AT THE BOTTOM
+/***************************************************/
+/**
+ * CSSReset.com - How To Keep Footer At Bottom of Page with CSS
+ *
+ * Original Tutorial: http://www.cssreset.com/2010/css-tutorials/how-to-keep-footer-at-bottom-of-page-with-css/
+ * License: Free - do whatever you like with it! Credit and linkbacks much appreciated.
+ *
+ * NB: Make sure the value for 'padding-bottom' on #content is equal to or greater than the height of #footer.
+ */
+html {
+  height: 100%; }
+
+body {
+  padding-bottom: 10%;
+  height: 90%; }
+
+#wrapper {
+  margin: 2%;
+  margin-top: 4%;
+  min-height: 90%;
+  position: relative;
+  padding-bottom: 10%;}
+
+#content {
+  padding-bottom: 10%;
+  /* Height of the footer element */ }
+
+#footer {
+  width: 100%;
+  height: 0px;
+  position: absolute;
+  bottom: 2.5em;
+  left: 0;
+  font-size: 1em; }
+
+@media only screen and (max-width: 1200px) {
+    body {
+      padding-bottom: 5px;
+      height: 100%; }
+
+    #wrapper {
+      margin: 2%;
+      min-height: 96%;
+      position: relative;
+      padding-bottom: 3%;}
+
+    #content {
+      padding-bottom: 4%;
+      /* Height of the footer element */ }
+
+    #footer {
+      width: 100%;
+      height: 0px;
+      position: absolute;
+      bottom: 4%;
+      left: 0;
+      font-size: 1em; }
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+      padding-bottom: 5px;
+      height: 100%; }
+
+    #wrapper {
+      margin: 2%;
+      position: relative;
+      padding-bottom: 3%;}
+
+    #content {
+      padding-bottom: 4%;
+      /* Height of the footer element */ }
+
+    #footer {
+      width: 100%;
+      height: 0px;
+      position: absolute;
+      bottom: 9%;
+      left: 0;
+      font-size: 1em; }
+}
+
+
+button {
+  width: 1.3em;
+  height: 1.3em;
+  margin-left: 0.3em;
+  margin-right: 0.3em; }
+
+button:hover {
+  border: 1px solid #FF357A; }
+
+.light {
+  background-color: whitesmoke;
+  border: 1px solid #ff357a;
+  color: whitesmoke; }
+
+.dark {
+  background-color: #2a2730;
+  border: 1px solid snow;
+  color: #2a2730; }
+
+.dot {
+  color: black; 
+}
+
+.style {
+    padding-top: 1em;
+  display: inline;
+  margin-right: 2em;
+  margin-left: 1em;
+  float: right;
+  }
+

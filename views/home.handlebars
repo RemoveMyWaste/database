@@ -1,0 +1,47 @@
+<p><a href="/users" class="name">/users</a> ⇢ virtual users used for development.</p>
+
+<p><a href="/materials" class="name">/materials</a> ⇢ see the materials or add a new one to the mix.</p>
+
+<p><a href="/centers" class="name">/centers</a> ⇢ browse disposal center information.</p>
+
+<p><a href="/hazards" class="name">/hazards</a> ⇢ browse hazard and handling instructions.</p>
+
+<p><a href="/schedules" class="name">/schedules</a> ⇢ add new operating hours/schedule for the centers.</p>
+
+<hr />
+
+<p><a href="/users_centers" class="name">/users_centers</a> ⇢ associate users to centers.</p>
+<p><a href="/users_centers" class="name">/users_materials</a> ⇢ associate users to materials.</p>
+
+<hr />
+
+<p><a href="/database.sql" class="name">/sql</a> ⇢ sql file to create this database.</p>
+
+<br />
+<br />
+<br />
+
+{{#each users}}
+    <ul>{{num}} users</ul>
+{{/each}}
+<ul>·</ul>
+
+{{#each materials}}
+    <ul>{{num}} materials</ul>
+<ul>·</ul>
+{{/each}}
+
+{{#each centers}}
+    <ul>{{num}} waste disposal centers</ul>
+<ul>·</ul>
+{{/each}}
+
+{{#each hazards}}
+    <ul>{{num}} hazard and handling instructions</ul>
+<ul>·</ul>
+{{/each}}
+
+{{#each locations}}
+    <ul>{{num}} locations</ul>
+{{/each}}
+
