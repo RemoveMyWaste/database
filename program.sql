@@ -4,10 +4,10 @@ liam beckman
 Project Step 3 Final Version
 */
 
-CREATE DATABASE MaterialsDB
-USE MaterialsDB;
-CREATE USER 'group24'@'localhost' IDENTIFIED BY 'hazelnut';
-GRANT ALL PRIVILEGES ON MaterialsDB.* to 'group24'@'localhost';
+-- CREATE DATABASE MaterialsDB
+-- USE MaterialsDB;
+-- CREATE USER 'group24'@'localhost' IDENTIFIED BY 'PASSWORD';
+-- GRANT ALL PRIVILEGES ON MaterialsDB.* to 'group24'@'localhost';
 
 -- set storage engine
 SET storage_engine=INNODB;
