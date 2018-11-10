@@ -1,12 +1,7 @@
-```shell
 mysql -u group24 -p MaterialsDB
-```
 
-```sql
 source program.sql
-```
+\q
 
-```shell
 npm install
 node database.js 12345
-```
