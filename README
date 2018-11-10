@@ -1,5 +1,12 @@
-mysql -u USERNAME -p -h HOST DATABSE
-source program.sql
+```shell
+mysql -u group24 -p MaterialsDB
+```
 
+```sql
+source program.sql
+```
+
+```shell
 npm install
 node database.js 12345
+```
