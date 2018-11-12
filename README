@@ -1,6 +1,6 @@
 mysql -u group24 -p MaterialsDB
 
-source program.sql
+source database.sql
 \q
 
 npm install
