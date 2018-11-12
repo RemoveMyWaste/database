@@ -70,7 +70,8 @@ CREATE TABLE schedules(
 CREATE TABLE materials(
     id int(10) NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
-    rating int(1),
+    hid int(10) NOT NULL,
+    FOREIGN KEY(hid) REFERENCES hazards(id),
     PRIMARY KEY(id)
 );
 
