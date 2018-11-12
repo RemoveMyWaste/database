@@ -1,9 +1,3 @@
-/*
-liam beckman
-24 july 2018
-Project Step 3 Final Version
-*/
-
 -- CREATE DATABASE MaterialsDB
 -- USE MaterialsDB;
 -- CREATE USER 'group24'@'localhost' IDENTIFIED BY 'PASSWORD';
