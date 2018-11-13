@@ -1,7 +1,3 @@
--- CREATE DATABASE MaterialsDB
--- USE MaterialsDB;
--- CREATE USER 'group24'@'localhost' IDENTIFIED BY 'PASSWORD';
--- GRANT ALL PRIVILEGES ON MaterialsDB.* to 'group24'@'localhost';
 
 -- set storage engine
 SET storage_engine=INNODB;
@@ -15,6 +11,8 @@ DROP TABLE IF EXISTS hazards;
 DROP TABLE IF EXISTS materials;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS handlingInstructions;
+DROP TABLE IF EXISTS disposalInstructions;
 
 
 CREATE TABLE handlingInstructions(
@@ -68,7 +66,7 @@ CREATE TABLE materials(
     FOREIGN KEY(hid) REFERENCES handlingInstructions(id),
 
     -- foreign key for disposalInstructions table
-    did int(10) NOT NULL,
+    did int(10),
     FOREIGN KEY(did) REFERENCES disposalInstructions(id),
 
     PRIMARY KEY(id)
@@ -106,6 +104,23 @@ CREATE TABLE users_materials(
 );
 
 
+-- populate table of handling instructions (for all materials)
+INSERT INTO handlingInstructions(instructions) values ("requires professional disposal");
+INSERT INTO handlingInstructions(instructions) values ("do not touch with bare skin");
+INSERT INTO handlingInstructions(instructions) values ("handle with care");
+INSERT INTO handlingInstructions(instructions) values ("do not drop");
+INSERT INTO handlingInstructions(instructions) values ("do not mix with ammonia");
+INSERT INTO handlingInstructions(instructions) values ("do not mix with bleach");
+INSERT INTO handlingInstructions(instructions) values ("keep away from flame or high heat");
+INSERT INTO handlingInstructions(instructions) values ("do not open in enclosed environment");
+INSERT INTO handlingInstructions(instructions) values ("keep away from infants or young children"); --9
+
+-- populate table of disposal instructions (only for materials that can be disposed of at home)
+INSERT INTO disposalInstructions(instructions) values ("dilute with water and pour down the drain");
+INSERT INTO disposalInstructions(instructions) values ("dispose of in household trash");
+INSERT INTO disposalInstructions(instructions) values ("dispose of in household recycling");
+
+
 -- populate table of materials (PRO DISPOSAL)
 INSERT INTO materials(name, pro, hid) values("lead", true, 1);
 INSERT INTO materials(name, pro, hid) values("tv", true, 1);
@@ -120,44 +135,46 @@ INSERT INTO materials(name, pro, hid) values("battery", true, 4);
 INSERT INTO materials(name, pro, hid) values("sulfuric acid", true, 4);
 INSERT INTO materials(name, pro, hid) values("lye", true, 4);
 INSERT INTO materials(name, pro, hid) values("electronics", true, 4);
+INSERT INTO materials(name, pro, hid) values("mercury thermometer", true, 4);
+INSERT INTO materials(name, pro, hid) values("prescription drugs", true, 4);
+INSERT INTO materials(name, pro, hid) values("fluorescent light bulb", true, 4);
+INSERT INTO materials(name, pro, hid) values("weed killer", true, 4);
+INSERT INTO materials(name, pro, hid) values("smoke detector", true, 4);
+INSERT INTO materials(name, pro, hid) values("fireworks", true, 4);
+INSERT INTO materials(name, pro, hid) values("tires", true, 4);
+INSERT INTO materials(name, pro, hid) values("asbestos", true, 4);
+INSERT INTO materials(name, pro, hid) values("treated wood", true, 4);
+INSERT INTO materials(name, pro, hid) values("mattress", true, 4);
+INSERT INTO materials(name, pro, hid) values("refrigerator", true, 4);
+INSERT INTO materials(name, pro, hid) values("medical waste", true, 4);
+INSERT INTO materials(name, pro, hid) values("propane", true, 4);
+INSERT INTO materials(name, pro, hid) values("gasoline", true, 4);
+INSERT INTO materials(name, pro, hid) values("lighter", true, 4);
+INSERT INTO materials(name, pro, hid) values("cosmetics", true, 4);
+INSERT INTO materials(name, pro, hid) values("toilet bowl cleaner", true, 4);
 
 -- populate table of materials (HOME DISPOSAL)
 INSERT INTO materials(name, pro, hid, did) values("borax", false, 4, 1);
 INSERT INTO materials(name, pro, hid, did) values("drano", false, 4, 1);
 INSERT INTO materials(name, pro, hid, did) values("alcohol", false, 4, 1);
-INSERT INTO materials(name, pro, hid, hid, did) values("bleach", false, 4, 5, 1);
-INSERT INTO materials(name, pro, hid, hid, did) values("ammonia", false, 4, 6, 1);
+INSERT INTO materials(name, pro, hid, did) values("bleach", false, 5, 1);
+INSERT INTO materials(name, pro, hid, did) values("ammonia", false, 6, 1);
 INSERT INTO materials(name, pro, hid, did) values("vinegar", false, 4, 1);
 INSERT INTO materials(name, pro, hid, did) values("windex", false, 4, 1);
 INSERT INTO materials(name, pro, hid, did) values("silica", false, 4, 2);
-INSERT INTO materials(name, pro, hid, did) values("laundry detergent", false, 4);
-INSERT INTO materials(name, pro, hid, did) values("glass", false, 4);
-INSERT INTO materials(name, pro, hid, did) values("toothpaste", false, 4);
-
--- populate table of handling instructions (for all materials)
-INSERT INTO handlingInstructions(instructions) values ("requires professional disposal");
-INSERT INTO handlingInstructions(instructions) values ("do not touch with bare skin");
-INSERT INTO handlingInstructions(instructions) values ("handle with care");
-INSERT INTO handlingInstructions(instructions) values ("do not drop");
-INSERT INTO disposalInstructions(instructions) values ("do not mix with ammonia");
-INSERT INTO disposalInstructions(instructions) values ("do not mix with bleach");
-
--- populate table of disposal instructions (only for materials that can be disposed of at home)
-INSERT INTO disposalInstructions(instructions) values ("dilute with water and pour down the drain");
-INSERT INTO disposalInstructions(instructions) values ("dispose of in household trash");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-INSERT INTO disposalInstructions(instructions) values ("");
-
-
-
+INSERT INTO materials(name, pro, hid, did) values("laundry detergent", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("glass", false, 4, 3);
+INSERT INTO materials(name, pro, hid, did) values("toothpaste", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("plastic bag", false, 9, 3);
+INSERT INTO materials(name, pro, hid, did) values("cardboard", false, 4, 3);
+INSERT INTO materials(name, pro, hid, did) values("paper", false, 4, 3);
+INSERT INTO materials(name, pro, hid, did) values("aluminum", false, 4, 3);
+INSERT INTO materials(name, pro, hid, did) values("vhs tape", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("clothing", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("aerosol can", false, 7, 1);
+INSERT INTO materials(name, pro, hid, did) values("glue", false, 8, 1);
+INSERT INTO materials(name, pro, hid, did) values("cooking oil", false, 7, 1);
+INSERT INTO materials(name, pro, hid, did) values("shampoo", false, 4, 2);
 
 
 -- populate table of centers
