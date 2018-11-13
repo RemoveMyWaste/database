@@ -10,7 +10,6 @@ SET storage_engine=INNODB;
 DROP TABLE IF EXISTS users_centers;
 DROP TABLE IF EXISTS users_materials;
 DROP TABLE IF EXISTS schedules;
-
 DROP TABLE IF EXISTS centers;
 DROP TABLE IF EXISTS hazards;
 DROP TABLE IF EXISTS materials;
@@ -18,24 +17,15 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS locations;
 
 
-
-CREATE TABLE hazards(
+CREATE TABLE handlingInstructions(
     id int(10) NOT NULL AUTO_INCREMENT,
-    hazards varchar(255),
-    handling varchar(255),
+    instructions varchar(255),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE locations(
+CREATE TABLE disposalInstructions(
     id int(10) NOT NULL AUTO_INCREMENT,
-    -- https://stackoverflow.com/questions/1159756/how-should-international-geographical-addresses-be-stored-in-a-relational-databas
-    street_number int(10) NOT NULL,
-    street_direction varchar(2),
-    street_name varchar(255) NOT NULL,
-    street_type varchar(255) NOT NULL,
-    city varchar(255) NOT NULL,
-    state varchar(255) NOT NULL,
-    zip varchar(255) NOT NULL,
+    instructions varchar(255),
     PRIMARY KEY(id)
 );
 
@@ -60,7 +50,6 @@ CREATE TABLE schedules(
     day_of_week int(1),
     time_open TIME,
     time_closed TIME,
-
     cid int(10) NOT NULL,
     FOREIGN KEY(cid) REFERENCES centers(id),
     PRIMARY KEY(id)
@@ -70,8 +59,18 @@ CREATE TABLE schedules(
 CREATE TABLE materials(
     id int(10) NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
+
+    -- requires professional disposal
+    pro BOOLEAN,
+
+    -- foreign key for handlingInstructions table
     hid int(10) NOT NULL,
-    FOREIGN KEY(hid) REFERENCES hazards(id),
+    FOREIGN KEY(hid) REFERENCES handlingInstructions(id),
+
+    -- foreign key for disposalInstructions table
+    did int(10) NOT NULL,
+    FOREIGN KEY(did) REFERENCES disposalInstructions(id),
+
     PRIMARY KEY(id)
 );
 
@@ -107,18 +106,68 @@ CREATE TABLE users_materials(
 );
 
 
--- populate table of materialss
-INSERT INTO materials(name, rating) values("lead", 1);
-INSERT INTO materials(name, rating) values("tv", 2);
-INSERT INTO materials(name, rating) values("cell phone", 3);
-INSERT INTO materials(name, rating) values("motor oil", 4);
-INSERT INTO materials(name, rating) values("paint", 5);
+-- populate table of materials (PRO DISPOSAL)
+INSERT INTO materials(name, pro, hid) values("lead", true, 1);
+INSERT INTO materials(name, pro, hid) values("tv", true, 1);
+INSERT INTO materials(name, pro, hid) values("cell phone", true, 2);
+INSERT INTO materials(name, pro, hid) values("motor oil", true, 2);
+INSERT INTO materials(name, pro, hid) values("paint", true, 3);
+INSERT INTO materials(name, pro, hid) values("acetone", true, 4);
+INSERT INTO materials(name, pro, hid) values("antifreeze", true, 4);
+INSERT INTO materials(name, pro, hid) values("boracic acid", true, 4);
+INSERT INTO materials(name, pro, hid) values("motor oil", true, 4);
+INSERT INTO materials(name, pro, hid) values("battery", true, 4);
+INSERT INTO materials(name, pro, hid) values("sulfuric acid", true, 4);
+INSERT INTO materials(name, pro, hid) values("lye", true, 4);
+INSERT INTO materials(name, pro, hid) values("electronics", true, 4);
+
+-- populate table of materials (HOME DISPOSAL)
+INSERT INTO materials(name, pro, hid, did) values("borax", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("drano", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("alcohol", false, 4, 1);
+INSERT INTO materials(name, pro, hid, hid, did) values("bleach", false, 4, 5, 1);
+INSERT INTO materials(name, pro, hid, hid, did) values("ammonia", false, 4, 6, 1);
+INSERT INTO materials(name, pro, hid, did) values("vinegar", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("windex", false, 4, 1);
+INSERT INTO materials(name, pro, hid, did) values("silica", false, 4, 2);
+INSERT INTO materials(name, pro, hid, did) values("laundry detergent", false, 4);
+INSERT INTO materials(name, pro, hid, did) values("glass", false, 4);
+INSERT INTO materials(name, pro, hid, did) values("toothpaste", false, 4);
+
+-- populate table of handling instructions (for all materials)
+INSERT INTO handlingInstructions(instructions) values ("requires professional disposal");
+INSERT INTO handlingInstructions(instructions) values ("do not touch with bare skin");
+INSERT INTO handlingInstructions(instructions) values ("handle with care");
+INSERT INTO handlingInstructions(instructions) values ("do not drop");
+INSERT INTO disposalInstructions(instructions) values ("do not mix with ammonia");
+INSERT INTO disposalInstructions(instructions) values ("do not mix with bleach");
+
+-- populate table of disposal instructions (only for materials that can be disposed of at home)
+INSERT INTO disposalInstructions(instructions) values ("dilute with water and pour down the drain");
+INSERT INTO disposalInstructions(instructions) values ("dispose of in household trash");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+INSERT INTO disposalInstructions(instructions) values ("");
+
+
+
 
 
 -- populate table of centers
-INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) values("Devilish Disposal", 666, "W", "hell", "highway", "hell", "Oregon", "66666");
-INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) values("Cool Disposal Inc.", 123, "S", "cool", "street", "coolsville", "Oregon", "12345");
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Devilish Disposal", 666, "W", "hell", "highway", "hell", "Oregon", "66666");
 
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Cool Disposal Inc.", 123, "S", "cool", "street", "coolsville", "Oregon", "12345");
+
+-- add center schedules (operating days and hours)
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (1, '09:00', '17:00', 1);
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (2, '09:00', '17:00', 1);
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (3, '09:00', '17:00', 1);
@@ -133,19 +182,9 @@ INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (4, '06:0
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (5, '06:00', '18:00', 2);
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (6, '06:00', '18:00', 2);
 
---INSERT INTO locations(street_number, street_direction, street_name, street_type, city, state, zip) values(999, "N", "sweet", "street", "radplace", "California", "99999");
---INSERT INTO locations(street_number, street_direction, street_name, street_type, city, state, zip) values(987, "SW", "bodacious", "boulevard", "illville", "Washingotn", "98765");
---INSERT INTO locations(street_number, street_direction, street_name, street_type, city, state, zip) values(321, "NW", "tubular", "turnpike", "excellentown", "Oregon", "54321");
---INSERT INTO locations(street_number, street_direction, street_name, street_type, city, state, zip) values(456, "E", "rockin", "road", "cowabungapolis", "California", "13579");
 
----- populate table of centers
---INSERT INTO centers(name, lid) values("Devilish Disposal", 1);
---INSERT INTO centers(name, lid) values("Cool Disposal Inc.", 2);
 
--- populate table of hazard and handling instructions
-INSERT INTO hazards(hazards, handling) values ("tickles if touched", "do not touch with bare skin");
-INSERT INTO hazards(hazards, handling) values ("melts human brains", "handle with care");
-INSERT INTO hazards(hazards, handling) values ("destroys the known universe", "do not drop");
+-- Week 2 user stuff
 
 -- add users
 INSERT INTO users(name) values("Joel");
