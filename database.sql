@@ -5,6 +5,8 @@ SET storage_engine=INNODB;
 -- drop tables to update everything
 DROP TABLE IF EXISTS users_centers;
 DROP TABLE IF EXISTS users_materials;
+DROP TABLE IF EXISTS materials_handling;
+DROP TABLE IF EXISTS materials_disposal;
 DROP TABLE IF EXISTS schedules;
 DROP TABLE IF EXISTS centers;
 DROP TABLE IF EXISTS hazards;
@@ -26,6 +28,7 @@ CREATE TABLE disposalInstructions(
     instructions varchar(255),
     PRIMARY KEY(id)
 );
+
 
 CREATE TABLE centers(
     id int(10) NOT NULL AUTO_INCREMENT,
@@ -61,15 +64,24 @@ CREATE TABLE materials(
     -- requires professional disposal
     pro BOOLEAN,
 
-    -- foreign key for handlingInstructions table
-    hid int(10) NOT NULL,
-    FOREIGN KEY(hid) REFERENCES handlingInstructions(id),
-
-    -- foreign key for disposalInstructions table
-    did int(10),
-    FOREIGN KEY(did) REFERENCES disposalInstructions(id),
 
     PRIMARY KEY(id)
+);
+
+CREATE TABLE materials_handling(
+    mid int(10) NOT NULL,
+    hid int(10) NOT NULL,
+    FOREIGN KEY(mid) REFERENCES materials(id),
+    FOREIGN KEY(hid) REFERENCES handlingInstructions(id),
+    PRIMARY KEY(mid, hid)
+);
+
+CREATE TABLE materials_disposal(
+    mid int(10) NOT NULL,
+    did int(10) NOT NULL,
+    FOREIGN KEY(mid) REFERENCES materials(id),
+    FOREIGN KEY(did) REFERENCES disposalInstructions(id),
+    PRIMARY KEY(mid, did)
 );
 
 
@@ -122,59 +134,181 @@ INSERT INTO disposalInstructions(instructions) values ("dispose of in household 
 
 
 -- populate table of materials (PRO DISPOSAL)
-INSERT INTO materials(name, pro, hid) values("lead", true, 1);
-INSERT INTO materials(name, pro, hid) values("tv", true, 1);
-INSERT INTO materials(name, pro, hid) values("cell phone", true, 2);
-INSERT INTO materials(name, pro, hid) values("motor oil", true, 2);
-INSERT INTO materials(name, pro, hid) values("paint", true, 3);
-INSERT INTO materials(name, pro, hid) values("acetone", true, 4);
-INSERT INTO materials(name, pro, hid) values("antifreeze", true, 4);
-INSERT INTO materials(name, pro, hid) values("boracic acid", true, 4);
-INSERT INTO materials(name, pro, hid) values("motor oil", true, 4);
-INSERT INTO materials(name, pro, hid) values("battery", true, 4);
-INSERT INTO materials(name, pro, hid) values("sulfuric acid", true, 4);
-INSERT INTO materials(name, pro, hid) values("lye", true, 4);
-INSERT INTO materials(name, pro, hid) values("electronics", true, 4);
-INSERT INTO materials(name, pro, hid) values("mercury thermometer", true, 4);
-INSERT INTO materials(name, pro, hid) values("prescription drugs", true, 4);
-INSERT INTO materials(name, pro, hid) values("fluorescent light bulb", true, 4);
-INSERT INTO materials(name, pro, hid) values("weed killer", true, 4);
-INSERT INTO materials(name, pro, hid) values("smoke detector", true, 4);
-INSERT INTO materials(name, pro, hid) values("fireworks", true, 4);
-INSERT INTO materials(name, pro, hid) values("tires", true, 4);
-INSERT INTO materials(name, pro, hid) values("asbestos", true, 4);
-INSERT INTO materials(name, pro, hid) values("treated wood", true, 4);
-INSERT INTO materials(name, pro, hid) values("mattress", true, 4);
-INSERT INTO materials(name, pro, hid) values("refrigerator", true, 4);
-INSERT INTO materials(name, pro, hid) values("medical waste", true, 4);
-INSERT INTO materials(name, pro, hid) values("propane", true, 4);
-INSERT INTO materials(name, pro, hid) values("gasoline", true, 4);
-INSERT INTO materials(name, pro, hid) values("lighter", true, 4);
-INSERT INTO materials(name, pro, hid) values("cosmetics", true, 4);
-INSERT INTO materials(name, pro, hid) values("toilet bowl cleaner", true, 4);
+INSERT INTO materials(name, pro) values("lead", true);
+INSERT INTO materials_handling(mid, hid) values (1, 1);
+
+INSERT INTO materials(name, pro) values("tv", true);
+INSERT INTO materials_handling(mid, hid) values (2, 1);
+
+INSERT INTO materials(name, pro) values("cell phone", true);
+INSERT INTO materials_handling(mid, hid) values (3, 2);
+
+INSERT INTO materials(name, pro) values("motor oil", true);
+INSERT INTO materials_handling(mid, hid) values (4, 2);
+
+INSERT INTO materials(name, pro) values("paint", true);
+INSERT INTO materials_handling(mid, hid) values (5, 3);
+
+INSERT INTO materials(name, pro) values("acetone", true);
+INSERT INTO materials_handling(mid, hid) values (6, 4);
+
+INSERT INTO materials(name, pro) values("antifreeze", true);
+INSERT INTO materials_handling(mid, hid) values (7, 4);
+
+INSERT INTO materials(name, pro) values("boracic acid", true);
+INSERT INTO materials_handling(mid, hid) values (8, 4);
+
+INSERT INTO materials(name, pro) values("motor oil", true);
+INSERT INTO materials_handling(mid, hid) values (9, 4);
+
+INSERT INTO materials(name, pro) values("battery", true);
+INSERT INTO materials_handling(mid, hid) values (10, 4);
+
+INSERT INTO materials(name, pro) values("sulfuric acid", true);
+INSERT INTO materials_handling(mid, hid) values (11, 4);
+
+INSERT INTO materials(name, pro) values("lye", true);
+INSERT INTO materials_handling(mid, hid) values (12, 4);
+
+INSERT INTO materials(name, pro) values("electronics", true);
+INSERT INTO materials_handling(mid, hid) values (13, 4);
+
+INSERT INTO materials(name, pro) values("mercury thermometer", true);
+INSERT INTO materials_handling(mid, hid) values (14, 4);
+
+INSERT INTO materials(name, pro) values("prescription drugs", true);
+INSERT INTO materials_handling(mid, hid) values (15, 4);
+
+INSERT INTO materials(name, pro) values("fluorescent light bulb", true);
+INSERT INTO materials_handling(mid, hid) values (16, 4);
+
+INSERT INTO materials(name, pro) values("weed killer", true);
+INSERT INTO materials_handling(mid, hid) values (17, 4);
+
+INSERT INTO materials(name, pro) values("smoke detector", true);
+INSERT INTO materials_handling(mid, hid) values (18, 4);
+
+INSERT INTO materials(name, pro) values("fireworks", true);
+INSERT INTO materials_handling(mid, hid) values (19, 4);
+
+INSERT INTO materials(name, pro) values("tires", true);
+INSERT INTO materials_handling(mid, hid) values (20, 4);
+
+INSERT INTO materials(name, pro) values("asbestos", true);
+INSERT INTO materials_handling(mid, hid) values (21, 4);
+
+INSERT INTO materials(name, pro) values("treated wood", true);
+INSERT INTO materials_handling(mid, hid) values (22, 4);
+
+INSERT INTO materials(name, pro) values("mattress", true);
+INSERT INTO materials_handling(mid, hid) values (23, 4);
+
+INSERT INTO materials(name, pro) values("refrigerator", true);
+INSERT INTO materials_handling(mid, hid) values (24, 4);
+
+INSERT INTO materials(name, pro) values("medical waste", true);
+INSERT INTO materials_handling(mid, hid) values (25, 4);
+
+INSERT INTO materials(name, pro) values("propane", true);
+INSERT INTO materials_handling(mid, hid) values (26, 4);
+
+INSERT INTO materials(name, pro) values("gasoline", true);
+INSERT INTO materials_handling(mid, hid) values (27, 4);
+
+INSERT INTO materials(name, pro) values("lighter", true);
+INSERT INTO materials_handling(mid, hid) values (28, 4);
+
+INSERT INTO materials(name, pro) values("cosmetics", true);
+INSERT INTO materials_handling(mid, hid) values (29, 4);
+
+INSERT INTO materials(name, pro) values("toilet bowl cleaner", true);
+INSERT INTO materials_handling(mid, hid) values (30, 4);
 
 -- populate table of materials (HOME DISPOSAL)
-INSERT INTO materials(name, pro, hid, did) values("borax", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("drano", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("alcohol", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("bleach", false, 5, 1);
-INSERT INTO materials(name, pro, hid, did) values("ammonia", false, 6, 1);
-INSERT INTO materials(name, pro, hid, did) values("vinegar", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("windex", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("silica", false, 4, 2);
-INSERT INTO materials(name, pro, hid, did) values("laundry detergent", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("glass", false, 4, 3);
-INSERT INTO materials(name, pro, hid, did) values("toothpaste", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("plastic bag", false, 9, 3);
-INSERT INTO materials(name, pro, hid, did) values("cardboard", false, 4, 3);
-INSERT INTO materials(name, pro, hid, did) values("paper", false, 4, 3);
-INSERT INTO materials(name, pro, hid, did) values("aluminum", false, 4, 3);
-INSERT INTO materials(name, pro, hid, did) values("vhs tape", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("clothing", false, 4, 1);
-INSERT INTO materials(name, pro, hid, did) values("aerosol can", false, 7, 1);
-INSERT INTO materials(name, pro, hid, did) values("glue", false, 8, 1);
-INSERT INTO materials(name, pro, hid, did) values("cooking oil", false, 7, 1);
-INSERT INTO materials(name, pro, hid, did) values("shampoo", false, 4, 2);
+INSERT INTO materials(name, pro) values("borax", false);
+INSERT INTO materials_handling(mid, hid) values(31, 4);
+INSERT INTO materials_disposal(mid, did) values(31, 1);
+
+INSERT INTO materials(name, pro) values("drano", false);
+INSERT INTO materials_handling(mid, hid) values(32, 4);
+INSERT INTO materials_disposal(mid, did) values(32, 1);
+
+INSERT INTO materials(name, pro) values("alcohol", false);
+INSERT INTO materials_handling(mid, hid) values(33, 4);
+INSERT INTO materials_disposal(mid, did) values(33, 1);
+
+INSERT INTO materials(name, pro) values("bleach", false);
+INSERT INTO materials_handling(mid, hid) values(34, 5);
+INSERT INTO materials_disposal(mid, did) values(34, 1);
+
+INSERT INTO materials(name, pro) values("ammonia", false);
+INSERT INTO materials_handling(mid, hid) values(35, 6);
+INSERT INTO materials_disposal(mid, did) values(35, 1);
+
+INSERT INTO materials(name, pro) values("vinegar", false);
+INSERT INTO materials_handling(mid, hid) values(36, 4);
+INSERT INTO materials_disposal(mid, did) values(36, 1);
+
+INSERT INTO materials(name, pro) values("windex", false);
+INSERT INTO materials_handling(mid, hid) values(37, 4);
+INSERT INTO materials_disposal(mid, did) values(37, 1);
+
+INSERT INTO materials(name, pro) values("silica", false);
+INSERT INTO materials_handling(mid, hid) values(38, 4);
+INSERT INTO materials_disposal(mid, did) values(38, 2);
+
+INSERT INTO materials(name, pro) values("laundry detergent", false);
+INSERT INTO materials_handling(mid, hid) values(39, 4);
+INSERT INTO materials_disposal(mid, did) values(39, 1);
+
+INSERT INTO materials(name, pro) values("glass", false);
+INSERT INTO materials_handling(mid, hid) values(40, 4);
+INSERT INTO materials_disposal(mid, did) values(40, 3);
+
+INSERT INTO materials(name, pro) values("toothpaste", false);
+INSERT INTO materials_handling(mid, hid) values(41, 4);
+INSERT INTO materials_disposal(mid, did) values(41, 1);
+
+INSERT INTO materials(name, pro) values("plastic bag", false);
+INSERT INTO materials_handling(mid, hid) values(42, 9);
+INSERT INTO materials_disposal(mid, did) values(42, 3);
+
+INSERT INTO materials(name, pro) values("cardboard", false);
+INSERT INTO materials_handling(mid, hid) values(43, 4);
+INSERT INTO materials_disposal(mid, did) values(43, 3);
+
+INSERT INTO materials(name, pro) values("paper", false);
+INSERT INTO materials_handling(mid, hid) values(44, 4);
+INSERT INTO materials_disposal(mid, did) values(44, 3);
+
+INSERT INTO materials(name, pro) values("aluminum", false);
+INSERT INTO materials_handling(mid, hid) values(45, 4);
+INSERT INTO materials_disposal(mid, did) values(45, 3);
+
+INSERT INTO materials(name, pro) values("vhs tape", false);
+INSERT INTO materials_handling(mid, hid) values(46, 4);
+INSERT INTO materials_disposal(mid, did) values(46, 1);
+
+INSERT INTO materials(name, pro) values("clothing", false);
+INSERT INTO materials_handling(mid, hid) values(47, 4);
+INSERT INTO materials_disposal(mid, did) values(47, 1);
+
+INSERT INTO materials(name, pro) values("aerosol can", false);
+INSERT INTO materials_handling(mid, hid) values(48, 7);
+INSERT INTO materials_disposal(mid, did) values(48, 1);
+
+INSERT INTO materials(name, pro) values("glue", false);
+INSERT INTO materials_handling(mid, hid) values(49, 8);
+INSERT INTO materials_disposal(mid, did) values(49, 1);
+
+INSERT INTO materials(name, pro) values("cooking oil", false);
+INSERT INTO materials_handling(mid, hid) values(50, 7);
+INSERT INTO materials_disposal(mid, did) values(50, 1);
+
+INSERT INTO materials(name, pro) values("shampoo", false);
+INSERT INTO materials_handling(mid, hid) values(51, 4);
+INSERT INTO materials_disposal(mid, did) values(51, 2);
+
 
 
 -- populate table of centers
