@@ -117,15 +117,16 @@ CREATE TABLE users_materials(
 
 
 -- populate table of handling instructions (for all materials)
-INSERT INTO handlingInstructions(instructions) values ("requires professional disposal");
-INSERT INTO handlingInstructions(instructions) values ("do not touch with bare skin");
-INSERT INTO handlingInstructions(instructions) values ("handle with care");
-INSERT INTO handlingInstructions(instructions) values ("do not drop");
-INSERT INTO handlingInstructions(instructions) values ("do not mix with ammonia");
-INSERT INTO handlingInstructions(instructions) values ("do not mix with bleach");
-INSERT INTO handlingInstructions(instructions) values ("keep away from flame or high heat");
-INSERT INTO handlingInstructions(instructions) values ("do not open in enclosed environment");
+INSERT INTO handlingInstructions(instructions) values ("requires professional disposal");           --1
+INSERT INTO handlingInstructions(instructions) values ("do not touch with bare skin");              --2
+INSERT INTO handlingInstructions(instructions) values ("handle with care");                         --3
+INSERT INTO handlingInstructions(instructions) values ("do not drop");                              --4
+INSERT INTO handlingInstructions(instructions) values ("do not mix with ammonia");                  --5
+INSERT INTO handlingInstructions(instructions) values ("do not mix with bleach");                   --6
+INSERT INTO handlingInstructions(instructions) values ("keep away from flame or high heat");        --7
+INSERT INTO handlingInstructions(instructions) values ("do not open in enclosed environment");      --8
 INSERT INTO handlingInstructions(instructions) values ("keep away from infants or young children"); --9
+INSERT INTO handlingInstructions(instructions) values ("keep away from pets and animals");          --10
 
 -- populate table of disposal instructions (only for materials that can be disposed of at home)
 INSERT INTO disposalInstructions(instructions) values ("dilute with water and pour down the drain");
@@ -135,49 +136,52 @@ INSERT INTO disposalInstructions(instructions) values ("dispose of in household 
 
 -- populate table of materials (PRO DISPOSAL)
 INSERT INTO materials(name, pro) values("lead", true);
-INSERT INTO materials_handling(mid, hid) values (1, 1);
+INSERT INTO materials_handling(mid, hid) values (1, 2);
+INSERT INTO materials_handling(mid, hid) values (1, 9);
 
 INSERT INTO materials(name, pro) values("tv", true);
-INSERT INTO materials_handling(mid, hid) values (2, 1);
+INSERT INTO materials_handling(mid, hid) values (2, 7);
 
 INSERT INTO materials(name, pro) values("cell phone", true);
-INSERT INTO materials_handling(mid, hid) values (3, 2);
+INSERT INTO materials_handling(mid, hid) values (3, 7);
 
 INSERT INTO materials(name, pro) values("motor oil", true);
-INSERT INTO materials_handling(mid, hid) values (4, 2);
+INSERT INTO materials_handling(mid, hid) values (4, 7);
 
 INSERT INTO materials(name, pro) values("paint", true);
-INSERT INTO materials_handling(mid, hid) values (5, 3);
+INSERT INTO materials_handling(mid, hid) values (5, 9);
+INSERT INTO materials_handling(mid, hid) values (5, 8);
 
 INSERT INTO materials(name, pro) values("acetone", true);
-INSERT INTO materials_handling(mid, hid) values (6, 4);
+INSERT INTO materials_handling(mid, hid) values (6, 7);
 
 INSERT INTO materials(name, pro) values("antifreeze", true);
-INSERT INTO materials_handling(mid, hid) values (7, 4);
+INSERT INTO materials_handling(mid, hid) values (7, 10);
 
 INSERT INTO materials(name, pro) values("boracic acid", true);
-INSERT INTO materials_handling(mid, hid) values (8, 4);
+INSERT INTO materials_handling(mid, hid) values (8, 2);
 
-INSERT INTO materials(name, pro) values("motor oil", true);
-INSERT INTO materials_handling(mid, hid) values (9, 4);
+INSERT INTO materials(name, pro) values("lighter fluid", true);
+INSERT INTO materials_handling(mid, hid) values (9, 7);
 
 INSERT INTO materials(name, pro) values("battery", true);
-INSERT INTO materials_handling(mid, hid) values (10, 4);
+INSERT INTO materials_handling(mid, hid) values (10, 7);
 
 INSERT INTO materials(name, pro) values("sulfuric acid", true);
-INSERT INTO materials_handling(mid, hid) values (11, 4);
+INSERT INTO materials_handling(mid, hid) values (11, 2);
 
 INSERT INTO materials(name, pro) values("lye", true);
-INSERT INTO materials_handling(mid, hid) values (12, 4);
+INSERT INTO materials_handling(mid, hid) values (12, 2);
 
 INSERT INTO materials(name, pro) values("electronics", true);
-INSERT INTO materials_handling(mid, hid) values (13, 4);
+INSERT INTO materials_handling(mid, hid) values (13, 7);
 
 INSERT INTO materials(name, pro) values("mercury thermometer", true);
-INSERT INTO materials_handling(mid, hid) values (14, 4);
+INSERT INTO materials_handling(mid, hid) values (14, 2);
+INSERT INTO materials_handling(mid, hid) values (14, 8);
 
 INSERT INTO materials(name, pro) values("prescription drugs", true);
-INSERT INTO materials_handling(mid, hid) values (15, 4);
+INSERT INTO materials_handling(mid, hid) values (15, 9);
 
 INSERT INTO materials(name, pro) values("fluorescent light bulb", true);
 INSERT INTO materials_handling(mid, hid) values (16, 4);
@@ -189,13 +193,13 @@ INSERT INTO materials(name, pro) values("smoke detector", true);
 INSERT INTO materials_handling(mid, hid) values (18, 4);
 
 INSERT INTO materials(name, pro) values("fireworks", true);
-INSERT INTO materials_handling(mid, hid) values (19, 4);
+INSERT INTO materials_handling(mid, hid) values (19, 7);
 
 INSERT INTO materials(name, pro) values("tires", true);
 INSERT INTO materials_handling(mid, hid) values (20, 4);
 
 INSERT INTO materials(name, pro) values("asbestos", true);
-INSERT INTO materials_handling(mid, hid) values (21, 4);
+INSERT INTO materials_handling(mid, hid) values (21, 8);
 
 INSERT INTO materials(name, pro) values("treated wood", true);
 INSERT INTO materials_handling(mid, hid) values (22, 4);
@@ -210,13 +214,13 @@ INSERT INTO materials(name, pro) values("medical waste", true);
 INSERT INTO materials_handling(mid, hid) values (25, 4);
 
 INSERT INTO materials(name, pro) values("propane", true);
-INSERT INTO materials_handling(mid, hid) values (26, 4);
+INSERT INTO materials_handling(mid, hid) values (26, 7);
 
 INSERT INTO materials(name, pro) values("gasoline", true);
-INSERT INTO materials_handling(mid, hid) values (27, 4);
+INSERT INTO materials_handling(mid, hid) values (27, 7);
 
 INSERT INTO materials(name, pro) values("lighter", true);
-INSERT INTO materials_handling(mid, hid) values (28, 4);
+INSERT INTO materials_handling(mid, hid) values (28, 7);
 
 INSERT INTO materials(name, pro) values("cosmetics", true);
 INSERT INTO materials_handling(mid, hid) values (29, 4);
