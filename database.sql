@@ -127,12 +127,20 @@ INSERT INTO handlingInstructions(instructions) values ("keep away from flame or 
 INSERT INTO handlingInstructions(instructions) values ("do not open in enclosed environment");      --8
 INSERT INTO handlingInstructions(instructions) values ("keep away from infants or young children"); --9
 INSERT INTO handlingInstructions(instructions) values ("keep away from pets and animals");          --10
+INSERT INTO handlingInstructions(instructions) values ("do not mix with vinegar");                  --11
+INSERT INTO handlingInstructions(instructions) values ("do not mix with rubbing alcohol");          --12
+INSERT INTO handlingInstructions(instructions) values ("wrap in paper and seal in a box");          --13
+INSERT INTO handlingInstructions(instructions) values ("do not mix with similar products");         --14
+INSERT INTO handlingInstructions(instructions) values ("place within medical sharps container");    --15
+INSERT INTO handlingInstructions(instructions) values ("take to local office supply store");        --16
 
 -- populate table of disposal instructions (only for materials that can be disposed of at home)
 INSERT INTO disposalInstructions(instructions) values ("dilute with water and pour down the drain");
 INSERT INTO disposalInstructions(instructions) values ("dispose of in household trash");
 INSERT INTO disposalInstructions(instructions) values ("dispose of in household recycling");
-
+INSERT INTO disposalInstructions(instructions) values ("safe to burn - Contact your county's fire department for 'burn days' and burning protocol");
+INSERT INTO disposalInstructions(instructions) values ("dispose of in roadside yard debris container - if available");
+INSERT INTO disposalInstructions(instructions) values ("safe to allow to decompose in isolated area on property - can use fertile soil in garden");
 
 -- populate table of materials (PRO DISPOSAL)
 INSERT INTO materials(name, pro) values("lead", true);
@@ -203,6 +211,7 @@ INSERT INTO materials_handling(mid, hid) values (21, 8);
 
 INSERT INTO materials(name, pro) values("treated wood", true);
 INSERT INTO materials_handling(mid, hid) values (22, 4);
+INSERT INTO materials_handling(mid, hid) values (22, 7);
 
 INSERT INTO materials(name, pro) values("mattress", true);
 INSERT INTO materials_handling(mid, hid) values (23, 4);
@@ -228,13 +237,15 @@ INSERT INTO materials_handling(mid, hid) values (29, 4);
 INSERT INTO materials(name, pro) values("toilet bowl cleaner", true);
 INSERT INTO materials_handling(mid, hid) values (30, 4);
 
+
 -- populate table of materials (HOME DISPOSAL)
 INSERT INTO materials(name, pro) values("borax", false);
 INSERT INTO materials_handling(mid, hid) values(31, 4);
 INSERT INTO materials_disposal(mid, did) values(31, 1);
 
-INSERT INTO materials(name, pro) values("drano", false);
+INSERT INTO materials(name, pro) values("drain cleaner", false);
 INSERT INTO materials_handling(mid, hid) values(32, 4);
+INSERT INTO materials_handling(mid, hid) values(32, 14);
 INSERT INTO materials_disposal(mid, did) values(32, 1);
 
 INSERT INTO materials(name, pro) values("alcohol", false);
@@ -243,6 +254,8 @@ INSERT INTO materials_disposal(mid, did) values(33, 1);
 
 INSERT INTO materials(name, pro) values("bleach", false);
 INSERT INTO materials_handling(mid, hid) values(34, 5);
+INSERT INTO materials_handling(mid, hid) values(34, 11);
+INSERT INTO materials_handling(mid, hid) values(34, 12);
 INSERT INTO materials_disposal(mid, did) values(34, 1);
 
 INSERT INTO materials(name, pro) values("ammonia", false);
@@ -267,6 +280,7 @@ INSERT INTO materials_disposal(mid, did) values(39, 1);
 
 INSERT INTO materials(name, pro) values("glass", false);
 INSERT INTO materials_handling(mid, hid) values(40, 4);
+INSERT INTO materials_handling(mid, hid) values(40, 13);
 INSERT INTO materials_disposal(mid, did) values(40, 3);
 
 INSERT INTO materials(name, pro) values("toothpaste", false);
@@ -313,6 +327,32 @@ INSERT INTO materials(name, pro) values("shampoo", false);
 INSERT INTO materials_handling(mid, hid) values(51, 4);
 INSERT INTO materials_disposal(mid, did) values(51, 2);
 
+INSERT INTO materials(name, pro) values("loose/fallen branches", false);
+INSERT INTO materials_disposal(mid, did) values (52, 4);
+
+INSERT INTO materials(name, pro) values("leaves/grass", false);
+INSERT INTO material_handling(mid, hid) values (53, 7);
+INSERT INTO material_disposal(mid, did) values (53, 5);
+INSERT INTO material_disposal(mid, did) values (53, 6);
+
+-- More materials (PRO DISPOSAL)
+INSERT INTO materials(name, pro) values("plywood", true);
+INSERT INTO materials_handling(mid, hid) values(54, 7);
+
+INSERT INTO materials(name, pro) values("particle board", true);
+INSERT INTO materials_handling(mid, hid) values(55, 7);
+
+INSERT INTO materials(name, pro) values("painted/stained wood", true);
+INSERT INTO materials_handling(mid, hid) values(56, 7);
+
+INSERT INTO materials(name, pro) values("medical sharps", true);
+INSERT INTO materials_handling(mid, hid) values (57, 15);
+
+INSERT INTO materials(name, pro) values("printer ink", true);
+INSERT INTO materials_handling(mid, hid) values (58, 16);
+
+INSERT INTO materials(name, pro) values("printer toner", true);
+INSERT INTO materials_handling(mid, hid) values (59, 16);
 
 
 -- populate table of centers
@@ -321,6 +361,15 @@ INSERT INTO centers(name, street_number, street_direction, street_name, street_t
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
             values("Cool Disposal Inc.", 123, "S", "cool", "street", "coolsville", "Oregon", "12345");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Disposal R Us", 412, "E", "main", "street", "Portland", "Oregon", "25352");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Eds Disposal Imporium", 241, "N", "ed", "street", "Ed", "Oregon", "23452");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Disposal and Disposal", 426, "E", "disposal", "street", "Corvallis", "Oregon", "23452");
 
 -- add center schedules (operating days and hours)
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (1, '09:00', '17:00', 1);
@@ -336,8 +385,6 @@ INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (3, '06:0
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (4, '06:00', '18:00', 2);
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (5, '06:00', '18:00', 2);
 INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (6, '06:00', '18:00', 2);
-
-
 
 -- Week 2 user stuff
 
