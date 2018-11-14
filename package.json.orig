@@ -1,0 +1,44 @@
+<<<<<<< HEAD
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "Hello world with express and node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "OSU",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^2.0.1",
+    "express-session": "^1.15.6",
+    "mysql": "^2.8.0",
+    "natives": "^1.1.6"
+  }
+}
+||||||| merged common ancestors
+=======
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "Hello world with express and node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "OSU",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^2.0.1",
+    "express-session": "^1.15.6",
+    "mysql": "^2.8.0",
+    "natives": "^1.1.6",
+    "handlebars": ">=4.0.0",
+    "uglify-js": ">=2.6.0"
+  }
+}
+>>>>>>> 4c1ff90487539296f9d4424f481410c3e3f183d1
