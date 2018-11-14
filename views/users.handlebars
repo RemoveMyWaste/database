@@ -32,12 +32,14 @@
 
 <table>
   <tr>
+    <th>id</th>
     <th>name</th>
     <th>password</th>
     <th>notifications</th>
   </tr>
   {{#each users}}
   <tr>
+    <td>{{id}}</td>
     <td>{{name}}</td>
     <td>{{password}}</td>
     <td>{{notifications}}</td>
@@ -60,30 +62,6 @@
 <script>
 // wait until the DOM before starting buttons
 document.addEventListener('DOMContentLoaded', bindButtons);
-document.addEventListener('DOMContentLoaded', addlocation);
-
-let srccount = 0;
-
-function addlocation(){
-
-    let adds = document.getElementsByClassName('addlocation');
-    let locationparent = document.getElementById('srcparent');
-
-    for (let i = locationcount; i < adds.length; i++) {
-        adds[i].addEventListener('click', function(event){
-
-        let addold = document.getElementById('addlocation');
-        let location = document.getElementById('src');
-        console.log("location: ", src);
-
-        let addnew = location.cloneNode(true);
-        locationparent.appendChild(addnew);
-        locationcount += 1;
-        addlocation(srccount);
-
-        });
-    }
-}
 
 
 function bindButtons(){
@@ -96,15 +74,24 @@ function bindButtons(){
             var req = new XMLHttpRequest();
             event.preventDefault();
 
-            let userName = document.getElementById("name").value;
-            //console.log("@@ userName:", userName);
+            let name = document.getElementById("name").value;
+            let password = document.getElementById("password").value;
+            let notificationsStatus = document.getElementById("notifications").checked;
+            let notifications = -5;
+            console.log("notificationsStatus: ", notificationsStatus);
+            if (notificationsStatus == true) {
+                notifications = 1;
+            }
+            else {
+                notifications = 0
+            }
 
-            //console.log("@@ userlicense:", userlicense);
+            console.log("name:", name);
+            console.log("password:", password);
+            console.log("notifications:", notifications);
 
-            //let userretrieved = document.getElementById("retrieved").value;
-            //console.log("@@ userretrieved:", userretrieved);
-            //console.log('/insert?name=' + userName + "&purpose=" + userpurpose + "&version=" + userversion + "&license=" + userlicense + "&retrieved=" + userretrieved);
-            req.open('GET', '/insert?table=user&name= ' + userName + "&purpose=" + userpurpose + "&url=" + userurl + "&version=" + userversion + "&license=" + userlicense + "&pid=" + 1, true);
+            req.open('GET', '/insert?table=users&name= ' + name + "&password=" + password + '&notifications=' + notifications, true);
+            console.log('GET', '/insert?table=users&name= ' + name + "&password=" + password + '&notifications=' + notifications);
             req.onload = function() {
                 let res = req.responseText;
                 //update();
