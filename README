@@ -1,5 +1,0 @@
-mysql -u USERNAME -p -h HOST DATABSE
-source program.sql
-
-npm install
-node database.js 12345

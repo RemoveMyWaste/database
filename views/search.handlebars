@@ -89,7 +89,6 @@
 </table>
 {{/if}}
 
-
 {{#if centers}}
 <h2><a href="centers">centers</a></h2>
 <table>
@@ -131,6 +130,35 @@
     <td>{{handling}}</td>
     <td>
     <form action="/edit-user" method="get">
+    <input value="Edit" class="buttonEdit" type="submit">
+    <input name="table" value="user" class="hidden-table" type="hidden">
+    <input name="id" value={{id}} class="hidden" type="hidden">
+    </form>
+    <form action="/delete" method="get">
+    <input value="Delete" class="buttonDelete" type="submit">
+    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+{{/if}}
+
+
+{{#if schedules}}
+<h2><a href="schedules">schedules</a></h2>
+<table>
+  <tr>
+    <th>day_of_week</th>
+    <th>time_open</th>
+    <th>time_closed</th>
+  </tr>
+  {{#each schedules}}
+  <tr>
+    <td>{{day_of_week}}</td>
+    <td>{{time_open}}</td>
+    <td>{{time_closed}}</td>
+    <td>
+    <form action="/edit-schedules" method="get">
     <input value="Edit" class="buttonEdit" type="submit">
     <input name="table" value="user" class="hidden-table" type="hidden">
     <input name="id" value={{id}} class="hidden" type="hidden">
