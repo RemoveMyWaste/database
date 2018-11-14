@@ -57,32 +57,33 @@ app.get('/search',function(req,res,next){
                 }
                 context.centers = rows; //JSON.stringify(rows);
 
-                sql = `SELECT * FROM hazards WHERE (hazards.hazards LIKE "%"?"%")`;
-                inserts = [req.query.search];
 
-                mysql.pool.query(sql,inserts, function(err, rows, fields){
-                    if(err){
-                        next(err);
-                        return;
-                    }
-                    context.hazards = rows; //JSON.stringify(rows);
-
-
-                    sql = `SELECT DISTINCT C.id AS cid, U.id AS uid, C.name AS cname, U.name AS uname FROM users_centers UC INNER JOIN users U ON UC.cid = U.id INNER JOIN centers C ON UC.cid = C.id WHERE (U.name LIKE "%"?"%") OR (C.name LIKE "%"?"%")`;
-                    inserts = [req.query.search, req.query.search];
+                    sql = `SELECT * FROM schedules WHERE (schedules.day_of_week LIKE "%"?"%")`;
+                    inserts = [req.query.search];
 
                     mysql.pool.query(sql,inserts, function(err, rows, fields){
                         if(err){
                             next(err);
                             return;
                         }
-                        context.users_centers = rows; //JSON.stringify(rows);
+                        context.schedules = rows; //JSON.stringify(rows);
 
 
-                        console.log("myresults: " + JSON.stringify(context));
-                        res.render('search', context);
+                        sql = `SELECT DISTINCT C.id AS cid, U.id AS uid, C.name AS cname, U.name AS uname FROM users_centers UC INNER JOIN users U ON UC.cid = U.id INNER JOIN centers C ON UC.cid = C.id WHERE (U.name LIKE "%"?"%") OR (C.name LIKE "%"?"%")`;
+                        inserts = [req.query.search, req.query.search];
+
+                        mysql.pool.query(sql,inserts, function(err, rows, fields){
+                            if(err){
+                                next(err);
+                                return;
+                            }
+                            context.users_centers = rows; //JSON.stringify(rows);
+
+
+                            console.log("myresults: " + JSON.stringify(context));
+                            res.render('search', context);
+                        });
                     });
-                });
             });
         });
     });
@@ -123,6 +124,39 @@ app.get('/materials',function(req,res,next){
 
 
 // home page (GET request)
+app.get('/handlingInstructions',function(req,res,next){
+    var context = {};
+    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
+    sql = 'SELECT * FROM handlingInstructions';
+    mysql.pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.handlingInstructions = rows;
+        context.table = "handlingInstructions";
+        res.render('handlingInstructions', context);
+    });
+});
+
+
+// home page (GET request)
+app.get('/disposalInstructions',function(req,res,next){
+    var context = {};
+    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
+    sql = 'SELECT * FROM disposalInstructions';
+    mysql.pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.disposalInstructions = rows;
+        context.table = "disposalInstructions";
+        res.render('disposalInstructions', context);
+    });
+});
+
+// home page (GET request)
 app.get('/centers',function(req,res,next){
     var context = {};
     // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
@@ -139,23 +173,37 @@ app.get('/centers',function(req,res,next){
 });
 
 
+
 // home page (GET request)
-app.get('/hazards',function(req,res,next){
+app.get('/schedules',function(req,res,next){
     var context = {};
-    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
-    sql = 'SELECT * FROM hazards';
-    mysql.pool.query(sql, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
+    sql = `
+            SELECT S.id, S.day_of_week, S.time_open, S.time_closed, C.name as centers,
+            CASE
+                WHEN S.day_of_week = 1 THEN "Sunday"
+                WHEN S.day_of_week = 2 THEN "Monday"
+                WHEN S.day_of_week = 3 THEN "Tuesday"
+                WHEN S.day_of_week = 4 THEN "Wednesday"
+                WHEN S.day_of_week = 5 THEN "Thursday"
+                WHEN S.day_of_week = 6 THEN "Friday"
+                WHEN S.day_of_week = 7 THEN "Saturday"
+                ELSE "invalid day number"
+            END AS day_of_week
+            FROM centers C INNER JOIN schedules S ON C.id = S.cid`;
 
-        context.table = "hazards";
-        context.hazards = rows;
-        res.render('hazards', context);
-    });
+
+        //sql = 'SELECT * FROM schedules';
+        mysql.pool.query(sql, function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+
+            context.table = "schedules";
+            context.schedules = rows;
+            res.render('schedules', context);
+        });
 });
-
 
 // home page (GET request)
 app.get('/program-author',function(req,res,next){
@@ -214,31 +262,40 @@ app.get('/',function(req,res,next){
             }
             context.materials = rows;
 
-            sql = 'SELECT COUNT(*) AS num FROM centers';
+            sql = 'SELECT COUNT(*) AS num FROM handlingInstructions';
             mysql.pool.query(sql, function(err, rows, fields){
                 if(err){
                     next(err);
                     return;
                 }
-                context.centers = rows;
+                context.handlingInstructions = rows;
 
-                sql = 'SELECT COUNT(*) AS num FROM hazards';
+                sql = 'SELECT COUNT(*) AS num FROM disposalInstructions';
                 mysql.pool.query(sql, function(err, rows, fields){
                     if(err){
                         next(err);
                         return;
                     }
-                    context.hazards = rows;
+                    context.disposalInstructions = rows;
 
-                sql = 'SELECT COUNT(*) AS num FROM locations';
-                mysql.pool.query(sql, function(err, rows, fields){
-                    if(err){
-                        next(err);
-                        return;
-                    }
-                    context.locations = rows;
-                    res.render('home', context);
-                });
+                    sql = 'SELECT COUNT(*) AS num FROM centers';
+                    mysql.pool.query(sql, function(err, rows, fields){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                        context.centers = rows;
+
+                        sql = 'SELECT COUNT(*) AS num FROM schedules';
+                        mysql.pool.query(sql, function(err, rows, fields){
+                            if(err){
+                                next(err);
+                                return;
+                            }
+                            context.schedules = rows;
+                            res.render('home', context);
+                        });
+                    });
                 });
             });
         });
@@ -322,13 +379,13 @@ app.get('/insert',function(req,res,next){
     let inserts;
 
     if (req.query.table == "users"){
-        sql = "INSERT INTO users (`name`, `password`) VALUES (?, ?)";
-        inserts = [req.query.name, req.query.password];
+        sql = "INSERT INTO users (`name`, `password`, `notifications`) VALUES (?, ?, ?)";
+        inserts = [req.query.name, req.query.password, req.query.notifications];
     }
 
     else if (req.query.table == "materials"){
-        sql = "INSERT INTO author (`name`, `rating`) VALUES (?, ?)";
-        inserts = [req.query.name, req.query.rating];
+        sql = "INSERT INTO materials (`name`, `pro`) VALUES (?, ?)";
+        inserts = [req.query.name, req.query.pro];
     }
 
     else if (req.query.table == "centers"){
@@ -356,7 +413,7 @@ app.get('/insert',function(req,res,next){
 app.get('/delete',function(req,res,next){
     var context = {};
     sql= "DELETE FROM ?? WHERE id=?";
-    inserts = [req.query.table, req.query.id]; 
+    inserts = [req.query.table, req.query.id];
     console.log("sql: " + sql);
     console.log("inserts: " + inserts);
     mysql.pool.query(sql, inserts, function(err, result){
@@ -401,14 +458,14 @@ app.get('/safe-update',function(req,res,next){
         if(result.length == 1){
             var curVals = result[0];
 
-            if (req.query.table == "program"){
-                sql = "UPDATE program SET name=?, purpose=?, url=?, version=?, license=? WHERE id=? ";
-                inserts = [req.query.name || curVals.name, req.query.purpose || curVals.purpose, req.query.url || curVals.url, req.query.version || curVals.version, req.query.license || curVals.license, req.query.id];
+            if (req.query.table == "users"){
+                sql = "UPDATE users SET name=?, password=?, notifications=? WHERE id=? ";
+                inserts = [req.query.name || curVals.name, req.query.password || curVals.password, req.query.notifications || curVals.notifications, req.query.id];
             }
 
-            else if (req.query.table == "author"){
-                sql = "UPDATE author SET name=?, url=?  WHERE id=? ";
-                inserts = [req.query.name || curVals.name, req.query.url || curVals.url, req.query.id];
+            else if (req.query.table == "materials"){
+                sql = "UPDATE materials SET name=?, pro=?  WHERE id=? ";
+                inserts = [req.query.name || curVals.name, req.query.pro || curVals.pro, req.query.id];
             }
 
             else if (req.query.table == "language"){
@@ -435,7 +492,7 @@ app.get('/safe-update',function(req,res,next){
                 console.log("update pid: ", req.query.pid);
             }
 
-            
+
 
             mysql.pool.query(sql, inserts, function(err, result){
                 if(err){
@@ -472,7 +529,7 @@ app.get('/safe-update-pl',function(req,res,next){
             console.log("update query.pidnew: ", req.query.pidnew);
             console.log("update query.lidnew: ", req.query.lidnew);
 
-            
+
 
             mysql.pool.query(sql, inserts, function(err, result){
                 if(err){
@@ -515,6 +572,21 @@ app.get('/edit-users', function(req,res,next) {
     });
 });
 
+
+app.get('/edit-materials', function(req,res,next) {
+    var context = {};
+    sql = 'SELECT * FROM materials WHERE id=?';
+    inserts = [req.query.id];
+    mysql.pool.query(sql, inserts , function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.table = "materials";
+        context.materials = rows;
+        res.render('edit-materials.handlebars', context);
+    });
+});
 
 app.get('/edit-author', function(req,res,next) {
     var context = {};
