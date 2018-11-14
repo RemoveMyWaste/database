@@ -9,12 +9,13 @@
 
 <form action="/insert" method="get">
 <fieldset>
-  <legend>add new material</legend>
+  <legend>add new handling instructions</legend>
     <label>
       <span class="name">instructions</span>
       <span> ⇢ </span>
-      <input size="20" name="instructions" placeholder="Do not drop." id="name" type="text_input">
+      <input size="20" name="instructions" placeholder="Do not drop." id="instructions" type="text_input">
     </label>
+  <input class="submit" value="Submit" type="submit">
 </fieldset>
 </form>
 
@@ -47,31 +48,6 @@
 <script>
 // wait until the DOM before starting buttons
 document.addEventListener('DOMContentLoaded', bindButtons);
-document.addEventListener('DOMContentLoaded', addlocation);
-
-let srccount = 0;
-
-function addlocation(){
-
-    let adds = document.getElementsByClassName('addlocation');
-    let locationparent = document.getElementById('srcparent');
-
-    for (let i = locationcount; i < adds.length; i++) {
-        adds[i].addEventListener('click', function(event){
-
-        let addold = document.getElementById('addlocation');
-        let location = document.getElementById('src');
-        console.log("location: ", src);
-
-        let addnew = location.cloneNode(true);
-        locationparent.appendChild(addnew);
-        locationcount += 1;
-        addlocation(srccount);
-
-        });
-    }
-}
-
 
 function bindButtons(){
 
@@ -79,29 +55,12 @@ function bindButtons(){
 
     for (let i = 0; i < buttonsSubmit.length; i++) {
         buttonsSubmit[i].addEventListener('click', function(event){
-            //console.log("adding ev to submit button");
             var req = new XMLHttpRequest();
             event.preventDefault();
 
-            let userName = document.getElementById("name").value;
-            //console.log("@@ userName:", userName);
+            let instructions = document.getElementById("instructions").value;
 
-            let userpurpose = document.getElementById("purpose").value;
-            //console.log("@@ userpurpose:", userpurpose);
-
-            let userurl = document.getElementById("url").value;
-
-            let userversion = document.getElementById("version").value;
-            //console.log("@@ userversion:", userversion);
-
-            let userlicense = document.getElementById("license").value;
-
-            //console.log("@@ userlicense:", userlicense);
-
-            //let userretrieved = document.getElementById("retrieved").value;
-            //console.log("@@ userretrieved:", userretrieved);
-            //console.log('/insert?name=' + userName + "&purpose=" + userpurpose + "&version=" + userversion + "&license=" + userlicense + "&retrieved=" + userretrieved);
-            req.open('GET', '/insert?table=user&name= ' + userName + "&purpose=" + userpurpose + "&url=" + userurl + "&version=" + userversion + "&license=" + userlicense + "&pid=" + 1, true);
+            req.open('GET', '/insert?table={{table}}' + '&instructions=' + instructions, true);
             req.onload = function() {
                 let res = req.responseText;
                 //update();
@@ -117,7 +76,6 @@ function bindButtons(){
 
         // hidden row id
         let buttonsHidden = document.getElementsByClassName("hidden");
-
 
         let buttonsDelete = document.getElementsByClassName("buttonDelete");
 
@@ -145,5 +103,3 @@ function bindButtons(){
 </script>
 
 <!--<script src="tabler.js"></script>-->
-
-

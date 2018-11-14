@@ -9,21 +9,30 @@
 
 <form action="/insert" method="get">
 <fieldset>
-  <legend>add new user</legend>
+  <legend>add new schedule</legend>
     <label>
-      <span class="name">name</span>
+      <span class="name">day of week</span>
       <span> ⇢ </span>
-      <input size="20" name="name" placeholder="A. Cool Guy" id="name" type="text_input">
+      <input size="20" id="day_of_week" placeholder="monday" id="name" type="text_input">
     </label>
     <label>
-        <span class="name">password</span>
+        <span class="name">time open</span>
         <span> ⇢ </span>
-        <input size="20" name="password" placeholder="12345" id="password" type="text_input">
+        <input size="20" id="time_open" id="time_open" type="time">
     </label>
     <label>
-        <span class="name">notifications</span>
+        <span class="name">time closed</span>
         <span> ⇢ </span>
-        <input size="20" name="notifications" id="notifications" type="checkbox">
+        <input size="20" id="time_closed" id="time_closed" type="time">
+    </label>
+    <label>
+        <span class="name">centers</span>
+        <span> ⇢ </span>
+        <select id="centers" name="centers"> 
+            {{#each centers}}
+                <option id="cid" value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
     </label>
   <input class="submit" value="Submit" type="submit">
 </fieldset>
@@ -33,18 +42,18 @@
 <table>
   <tr>
     <th>id</th>
-    <th>centers</th>
     <th>day_of_week</th>
     <th>time_open</th>
     <th>time_closed</th>
+    <th>centers</th>
   </tr>
   {{#each schedules}}
   <tr>
     <td>{{id}}</td>
-    <td>{{centers}}</td>
     <td>{{day_of_week}}</td>
     <td>{{time_open}}</td>
     <td>{{time_closed}}</td>
+    <td>{{centers}}</td>
     <td>
     <form action="/edit-schedules" method="get">
     <input value="Edit" class="buttonEdit" type="submit">
@@ -65,7 +74,6 @@
 // wait until the DOM before starting buttons
 document.addEventListener('DOMContentLoaded', bindButtons);
 
-
 function bindButtons(){
 
     let buttonsSubmit = document.getElementsByClassName('submit');
@@ -76,15 +84,42 @@ function bindButtons(){
             var req = new XMLHttpRequest();
             event.preventDefault();
 
-            let userName = document.getElementById("name").value;
-            //console.log("@@ userName:", userName);
+            let day_of_week_name = document.getElementById("day_of_week").value;
+            let day_of_week = -5
+            switch(day_of_week_name) {
+                case "sunday":
+                    day_of_week = 1;
+                    break;
+                case "monday":
+                    day_of_week = 2;
+                    break;
+                case "tuesday":
+                    day_of_week = 3;
+                    break;
+                case "wednesday":
+                    day_of_week = 4;
+                    break;
+                case "thursday":
+                    day_of_week = 5;
+                    break;
+                case "friday":
+                    day_of_week = 6;
+                    break;
+                case "saturday":
+                    day_of_week = 7;
+                    break;
+            }
 
-            //console.log("@@ userlicense:", userlicense);
+            let time_open = document.getElementById("time_open").value;
+            let time_closed = document.getElementById("time_closed").value;
+            let cid = document.getElementById("cid").value;
+            console.log("day_of_week:", day_of_week)
+            console.log("time_open:", time_open)
+            console.log("time_closed:", time_closed)
+            console.log("cid:", cid)
 
-            //let userretrieved = document.getElementById("retrieved").value;
-            //console.log("@@ userretrieved:", userretrieved);
-            //console.log('/insert?name=' + userName + "&purpose=" + userpurpose + "&version=" + userversion + "&license=" + userlicense + "&retrieved=" + userretrieved);
-            req.open('GET', '/insert?table=user&name= ' + userName + "&purpose=" + userpurpose + "&url=" + userurl + "&version=" + userversion + "&license=" + userlicense + "&pid=" + 1, true);
+            req.open('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid, true);
+            console.log('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid);
             req.onload = function() {
                 let res = req.responseText;
                 //update();
