@@ -14,29 +14,15 @@
 <form id="formOld" action="/safe-update" method="get">
 <fieldset>
     <legend>edit</legend>
-      {{#each users}} 
+      {{#each handlingInstructions}} 
     <input name="table" value={{table}} class="hidden-table" type="hidden">
     <div id="input">
 
     <label>
         <span class="name" style="width: 65px;">name</span>
         <span> ⇢ </span>
-        <input size="20" name="name" id="name" type="text_input" value="{{name}}">
+        <input size="20" name="instructions" id="instructions" type="text_input" value="{{instructions}}">
     </label>
-
-    <label>
-        <span class="name" style="width: 65px;">password</span>
-        <span> ⇢ </span>
-        <input size="20" name="password" id="password" type="text_input" value="{{password}}">
-    </label>
-
-    <label>
-        <span class="name">notifications</span>
-        <span> ⇢ </span>
-        <input size="20" name="notifications" id="notifications" type="checkbox">
-    </label>
-
-
 
 <input id="table" name="table" value={{table}} class="hidden-table" type="hidden">
 <input id="id" name="id" value={{id}} class="hidden" type="hidden">
@@ -46,19 +32,15 @@
 </form>
 
 <h2>{{table}}</h2>
-  {{#each users}} 
+  {{#each handlingInstructions}} 
 <table>
   <tr> 
     <th>id</th> 
-    <th>name</th> 
-    <th>password</th>
-    <td>notifications</td>
+    <td>instructions</td>
   </tr> 
   <tr> 
         <td>{{id}}</td> 
-        <td>{{name}}</td> 
-        <td>{{password}}</td> 
-        <td>{{notifications}}</td>
+        <td>{{instructions}}</td>
   </tr> 
     </form>
     </td>
@@ -82,22 +64,9 @@ function bindButtons(){
             var req = new XMLHttpRequest();
             event.preventDefault();
 
+            let instructions = document.getElementById("instructions").value;
 
-            let name = document.getElementById("name").value;
-
-            let password = document.getElementById("password").value;
-            let notificationsStatus = document.getElementById("notifications").checked;
-            let notifications = -5;
-            console.log("notificationsStatus: ", notificationsStatus);
-            if (notificationsStatus == true) {
-                notifications = 1;
-            }
-            else {
-                notifications = 0
-            }
-
-
-            req.open('GET', '/safe-update' + '?table=' + '{{table}}' + '&id=' + buttonHidden.value + '&name=' + name + "&password=" + password + '&notifications=' + notifications, true);
+            req.open('GET', '/safe-update' + '?table={{table}}' + '&id=' + buttonHidden.value + '&instructions=' + instructions, true);
 
             event.preventDefault();
             req.onload = function() {
