@@ -62,6 +62,30 @@
 <script>
 // wait until the DOM before starting buttons
 document.addEventListener('DOMContentLoaded', bindButtons);
+document.addEventListener('DOMContentLoaded', addlocation);
+
+let srccount = 0;
+
+function addlocation(){
+
+    let adds = document.getElementsByClassName('addlocation');
+    let locationparent = document.getElementById('srcparent');
+
+    for (let i = locationcount; i < adds.length; i++) {
+        adds[i].addEventListener('click', function(event){
+
+        let addold = document.getElementById('addlocation');
+        let location = document.getElementById('src');
+        console.log("location: ", src);
+
+        let addnew = location.cloneNode(true);
+        locationparent.appendChild(addnew);
+        locationcount += 1;
+        addlocation(srccount);
+
+        });
+    }
+}
 
 
 function bindButtons(){
