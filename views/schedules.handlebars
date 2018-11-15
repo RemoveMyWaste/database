@@ -119,7 +119,7 @@ function bindButtons(){
             console.log("cid:", cid)
 
             req.open('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid, true);
-            console.log('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid);
+            //console.log('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid);
             req.onload = function() {
                 let res = req.responseText;
                 //update();

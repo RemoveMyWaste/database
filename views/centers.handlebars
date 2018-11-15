@@ -105,8 +105,6 @@ function bindButtons(){
             let state = document.getElementById("state").value;
             let zip = document.getElementById("zip").value;
 
-            console.log('GET', '/insert?table={{table}}' + '&name= ' + name + "&street_number=" + street_number + "&street_direction=" + street_direction + "&street_name=" + street_name + "&street_type=" + street_type + "&zip=" + zip);
-
             req.open('GET', '/insert?table={{table}}' + '&name= ' + name + "&street_number=" + street_number + "&street_direction=" + street_direction + "&street_name=" + street_name + "&street_type=" + street_type + "&city=" + city + "&state=" + state + "&zip=" + zip, true);
             req.onload = function() {
                 let res = req.responseText;
