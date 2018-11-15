@@ -101,9 +101,12 @@ select {
 ul {
     display: inline;
     color: #4502cc;
-list-style: none;
+    list-style: none;
 }
 
+ul.main {
+    padding: 0.7em;
+}
 
 .title {
  font-style: italic;
@@ -137,7 +140,8 @@ body {
   margin-top: 4%;
   min-height: 90%;
   position: relative;
-  padding-bottom: 10%;}
+  padding-bottom: 10%;
+}
 
 #content {
   padding-bottom: 10%;
@@ -170,7 +174,7 @@ body {
       width: 100%;
       height: 0px;
       position: absolute;
-      bottom: 4%;
+      //bottom: 4%;
       left: 0;
       font-size: 1em; }
 }
