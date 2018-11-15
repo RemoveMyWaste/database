@@ -21,6 +21,11 @@ source database.sql
 # To run the node server
 
 ```sh
+cp dbcon-example.js dbcon.js
+nano dbcon.js 
+# add username and password info
+# add database name 
+
 npm install
 node database.js PORT
 ```
