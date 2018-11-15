@@ -166,8 +166,8 @@ app.get('/centers',function(req,res,next){
             next(err);
             return;
         }
-        context.table = "centers";
         context.centers = rows;
+        context.table = "centers";
         res.render('centers', context);
     });
 });
@@ -399,7 +399,7 @@ app.get('/insert',function(req,res,next){
 
     else if (req.query.table == "centers"){
         sql = "INSERT INTO centers(`name`, `street_number`, `street_direction`, `street_name`, `street_type`, `city`, `state`, `zip`) values(?, ?, ?, ?, ?, ?, ?, ?)";
-        inserts = [req.query.name, req.query.street_number, req.query.street_direction, req.query.street_name, req.query.street_type, req.query.city, req.query.state, zip];
+        inserts = [req.query.name, req.query.street_number, req.query.street_direction, req.query.street_name, req.query.street_type, req.query.city, req.query.state, req.query.zip];
     }
 
     else if (req.query.table == "schedules"){
@@ -497,11 +497,14 @@ app.get('/safe-update',function(req,res,next){
                 inserts = [req.query.instructions || curVals.instructions, req.query.id];
             }
 
-            else if (req.query.table == "program_language"){
-                sql = "UPDATE program_language SET pid=?, lid=? WHERE pid=? AND lid=?";
-                inserts = [req.query.pid || curVals.pid, req.query.lid || curVals.lid, req.query.pidnew || curVals.pidnew, req.query.lidnew || curVals.lidnew, req.query.id];
-                console.log("update query.id: ", req.query.id);
-                console.log("update pid: ", req.query.pid);
+            else if (req.query.table == "centers"){
+                sql = "UPDATE centers SET name=?, street_number=?, street_direction=?, street_name=?, street_type=?, city=?, state=?, zip=? WHERE id=? ";
+                inserts = [req.query.name || curVals.name, req.query.street_direction || curVals.street_direction, req.query.street_number || curVals.street_number,req.query.street_name || curVals.street_name, req.query.street_type || curVals.street_type,req.query.city || curVals.city, req.query.state || curVals.state, req.query.zip || curVals.zip, req.query.id];
+            }
+
+            else if (req.query.table == "schedules"){
+                sql = "UPDATE schedules SET day_of_week=?, time_open=?, time_closed=?, cid=? WHERE id=? ";
+                inserts = [req.query.day_of_week || curVals.day_of_week, req.query.time_open || curVals.time_open, req.query.time_closed || curVals.time_closed, req.query.cid || curVals.cid, req.query.id];
             }
 
 
