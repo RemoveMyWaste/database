@@ -51,6 +51,11 @@
         <span> ⇢ </span>
         <input size="20" name="state" value={{state}} id="state" type="text_input">
     </label>
+    <label>
+        <span class="name">zip</span>
+        <span> ⇢ </span>
+        <input size="20" name="zip" value={{zip}} id="zip" type="text_input">
+    </label>
 
 <input id="table" name="table" value={{table}} class="hidden-table" type="hidden">
 <input id="id" name="id" value={{id}} class="hidden" type="hidden">
@@ -93,21 +98,16 @@ function bindButtons(){
             event.preventDefault();
 
             let name = document.getElementById("name").value;
-            console.log("@@ name:", name);
+            let street_number = document.getElementById("street_number").value;
+            let street_direction = document.getElementById("street_direction").value;
+            let street_name = document.getElementById("street_name").value;
+            let street_type = document.getElementById("street_type").value;
+            let city = document.getElementById("city").value;
+            let state = document.getElementById("state").value;
+            let zip = document.getElementById("zip").value;
 
-            let proStatus = document.getElementById("pro").checked;
-            console.log("@@ proStatus:", proStatus);
+            req.open('GET', '/safe-update?table={{table}}' + "&id=" + buttonHidden.value + '&name= ' + name + "&street_number=" + street_number + "&street_direction=" + street_direction + "&street_name=" + street_name + "&street_type=" + street_type + "&city=" + city + "&state=" + state + "&zip=" + zip, true);
 
-            let pro = -5;
-            if (proStatus == true) {
-                pro = 1;
-            }
-            else {
-                pro = 0;
-            }
-            console.log("pro: ", pro);
-
-            req.open('GET', '/safe-update' + '?table=' + '{{table}}' + '&id=' + buttonHidden.value + '&name=' + name + "&pro=" + pro, true);
 
             event.preventDefault();
             req.onload = function() {

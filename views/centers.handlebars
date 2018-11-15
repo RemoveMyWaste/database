@@ -21,12 +21,12 @@
         <input size="20" name="street_number" placeholder="123" id="street_number" type="text_input">
     </label>
     <label>
-        <span class="name">street_number</span>
+        <span class="name">street_direction</span>
         <span> ⇢ </span>
         <input size="20" name="street_direction" placeholder="N" id="street_direction" type="text_input">
     </label>
     <label>
-        <span class="name">street_number</span>
+        <span class="name">street_name</span>
         <span> ⇢ </span>
         <input size="20" name="street_name" placeholder="Pizzamas" id="street_name" type="text_input">
     </label>
@@ -44,6 +44,11 @@
         <span class="name">state</span>
         <span> ⇢ </span>
         <input size="20" name="state" placeholder="Oregon" id="state" type="text_input">
+    </label>
+    <label>
+        <span class="name">zip</span>
+        <span> ⇢ </span>
+        <input size="20" name="zip" placeholder="12345" id="zip" type="text_input">
     </label>
   <input class="submit" value="Submit" type="submit">
 </fieldset>
@@ -80,31 +85,6 @@
 <script>
 // wait until the DOM before starting buttons
 document.addEventListener('DOMContentLoaded', bindButtons);
-document.addEventListener('DOMContentLoaded', addlocation);
-
-let srccount = 0;
-
-function addlocation(){
-
-    let adds = document.getElementsByClassName('addlocation');
-    let locationparent = document.getElementById('srcparent');
-
-    for (let i = locationcount; i < adds.length; i++) {
-        adds[i].addEventListener('click', function(event){
-
-        let addold = document.getElementById('addlocation');
-        let location = document.getElementById('src');
-        console.log("location: ", src);
-
-        let addnew = location.cloneNode(true);
-        locationparent.appendChild(addnew);
-        locationcount += 1;
-        addlocation(srccount);
-
-        });
-    }
-}
-
 
 function bindButtons(){
 
@@ -116,25 +96,18 @@ function bindButtons(){
             var req = new XMLHttpRequest();
             event.preventDefault();
 
-            let userName = document.getElementById("name").value;
-            //console.log("@@ userName:", userName);
+            let name = document.getElementById("name").value;
+            let street_number = document.getElementById("street_number").value;
+            let street_direction = document.getElementById("street_direction").value;
+            let street_name = document.getElementById("street_name").value;
+            let street_type = document.getElementById("street_type").value;
+            let city = document.getElementById("city").value;
+            let state = document.getElementById("state").value;
+            let zip = document.getElementById("zip").value;
 
-            let userpurpose = document.getElementById("purpose").value;
-            //console.log("@@ userpurpose:", userpurpose);
+            console.log('GET', '/insert?table={{table}}' + '&name= ' + name + "&street_number=" + street_number + "&street_direction=" + street_direction + "&street_name=" + street_name + "&street_type=" + street_type + "&zip=" + zip);
 
-            let userurl = document.getElementById("url").value;
-
-            let userversion = document.getElementById("version").value;
-            //console.log("@@ userversion:", userversion);
-
-            let userlicense = document.getElementById("license").value;
-
-            //console.log("@@ userlicense:", userlicense);
-
-            //let userretrieved = document.getElementById("retrieved").value;
-            //console.log("@@ userretrieved:", userretrieved);
-            //console.log('/insert?name=' + userName + "&purpose=" + userpurpose + "&version=" + userversion + "&license=" + userlicense + "&retrieved=" + userretrieved);
-            req.open('GET', '/insert?table=user&name= ' + userName + "&purpose=" + userpurpose + "&url=" + userurl + "&version=" + userversion + "&license=" + userlicense + "&pid=" + 1, true);
+            req.open('GET', '/insert?table={{table}}' + '&name= ' + name + "&street_number=" + street_number + "&street_direction=" + street_direction + "&street_name=" + street_name + "&street_type=" + street_type + "&city=" + city + "&state=" + state + "&zip=" + zip, true);
             req.onload = function() {
                 let res = req.responseText;
                 //update();
