@@ -3,7 +3,7 @@ body {
     background-color: #2a2730;
 }
 
-p, h1, h2, h3, span, legend {
+p, h1, h2, h3, span, legend, pre {
     color: lightgrey;
 }
 

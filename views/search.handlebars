@@ -35,18 +35,19 @@
 </table> 
 {{/if}}
 
-{{#if author}}
-<h2><a href="materials">materials</a></h2>
 
+{{#if materials}}
 <table>
   <tr>
+    <th>id</th>
     <th>name</th>
-    <th>rating</th>
+    <th>pro</th>
   </tr>
   {{#each materials}}
   <tr>
+    <td>{{id}}</td>
     <td>{{name}}</td>
-    <td>{{rating}}</td>
+    <td>{{pro}}</td>
     <td>
     <form action="/edit-materials" method="get">
     <input value="Edit" class="buttonEdit" type="submit">
@@ -63,19 +64,43 @@
 {{/if}}
 
 
-{{#if centers}}
-<h2><a href="centers">centers</a></h2>
+{{#if}}
 <table>
   <tr>
-    <th>name</th>
-    <th>rating</th>
+    <th>id</th>
+    <th>instructions</th>
   </tr>
-  {{#each materials}}
+  {{#each handlingInstructions}}
   <tr>
-    <td>{{name}}</td>
-    <td>{{rating}}</td>
+    <td>{{id}}</td>
+    <td>{{instructions}}</td>
     <td>
-    <form action="/edit-materials" method="get">
+    <form action="/edit-handlingInstructions" method="get">
+    <input value="Edit" class="buttonEdit" type="submit">
+    <input name="table" value="user" class="hidden-table" type="hidden">
+    <input name="id" value={{id}} class="hidden" type="hidden">
+    </form>
+    <form action="/delete" method="get">
+    <input value="Delete" class="buttonDelete" type="submit">
+    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+{{/if}}
+
+{{#if}}
+<table>
+  <tr>
+    <th>id</th>
+    <th>instructions</th>
+  </tr>
+  {{#each disposalInstructions}}
+  <tr>
+    <td>{{id}}</td>
+    <td>{{instructions}}</td>
+    <td>
+    <form action="/edit-disposalInstructions" method="get">
     <input value="Edit" class="buttonEdit" type="submit">
     <input name="table" value="user" class="hidden-table" type="hidden">
     <input name="id" value={{id}} class="hidden" type="hidden">
@@ -118,33 +143,6 @@
 </table>
 {{/if}}
 
-{{#if hazards}}
-<h2><a href="hazards">hazards</a></h2>
-<table>
-  <tr>
-    <th>hazards</th>
-    <th>handling instructions</th>
-  </tr>
-  {{#each hazards}}
-  <tr>
-    <td>{{hazards}}</td>
-    <td>{{handling}}</td>
-    <td>
-    <form action="/edit-user" method="get">
-    <input value="Edit" class="buttonEdit" type="submit">
-    <input name="table" value="user" class="hidden-table" type="hidden">
-    <input name="id" value={{id}} class="hidden" type="hidden">
-    </form>
-    <form action="/delete" method="get">
-    <input value="Delete" class="buttonDelete" type="submit">
-    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
-    </td>
-  </tr>
-  {{/each}}
-</table>
-{{/if}}
-
-
 {{#if schedules}}
 <h2><a href="schedules">schedules</a></h2>
 <table>
@@ -172,6 +170,7 @@
   {{/each}}
 </table>
 {{/if}}
+
 
 
 <pre id="results">{{results}}</pre>

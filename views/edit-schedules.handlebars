@@ -1,34 +1,41 @@
-{{error}}
+<div id="add">
+</div>
+
+<div id="form">
+</div>
+
+<div id="table">
+</div>
+
+<pre id="results">{{results}}</pre>
 
 
-<h2>schedules </h2>
-<p>⇢ example schedules</p>
-<br />
-<br />
-
-
-<form action="/insert" method="get">
+<form id="formOld" action="/safe-update" method="get">
 <fieldset>
-  <legend>add new schedule</legend>
+  <legend>edit</legend>
+      {{#each schedules}} 
     <label>
       <span class="name">day of week</span>
       <span> ⇢ </span>
-      <input size="20" id="day_of_week" placeholder="monday" id="name" type="text_input">
+      <input size="20" id="day_of_week" value="{{day_of_week}}" id="name" type="text_input">
     </label>
     <label>
         <span class="name">time open</span>
         <span> ⇢ </span>
-        <input size="20" id="time_open" id="time_open" type="time">
+        <input size="20" id="time_open" value="{{time_open}}" type="time">
     </label>
     <label>
         <span class="name">time closed</span>
         <span> ⇢ </span>
-        <input size="20" id="time_closed" id="time_closed" type="time">
+        <input size="20" id="time_closed" value="{{time_closed}}" type="time">
     </label>
+    <input id="table" name="table" value={{table}} class="hidden-table" type="hidden">
+    <input id="id" name="id" value={{id}} class="hidden" type="hidden">
+  {{/each}} 
     <label>
         <span class="name">centers</span>
         <span> ⇢ </span>
-        <select id="centers" name="centers"> 
+        <select id="centers" name="centers" selected="{{centers}}"> 
             {{#each centers}}
                 <option id="cid" value="{{id}}">{{name}}</option>
             {{/each}}
@@ -38,7 +45,8 @@
 </fieldset>
 </form>
 
-
+<h2>{{table}}</h2>
+  {{#each schedules}} 
 <table>
   <tr>
     <th>id</th>
@@ -47,40 +55,30 @@
     <th>time_closed</th>
     <th>centers</th>
   </tr>
-  {{#each schedules}}
   <tr>
     <td>{{id}}</td>
     <td>{{day_of_week}}</td>
     <td>{{time_open}}</td>
     <td>{{time_closed}}</td>
     <td>{{centers}}</td>
-    <td>
-    <form action="/edit-schedules" method="get">
-    <input value="Edit" class="buttonEdit" type="submit">
-    <input name="table" value="user" class="hidden-table" type="hidden">
-    <input name="id" value={{id}} class="hidden" type="hidden">
-    </form>
-    <form action="/delete" method="get">
-    <input value="Delete" class="buttonDelete" type="submit">
-    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
-    </td>
-  </tr>
-  {{/each}}
-</table>
-
-
+  </tr> 
+  {{/each}} 
+</table> 
 
 <script>
+
 // wait until the DOM before starting buttons
 document.addEventListener('DOMContentLoaded', bindButtons);
 
 function bindButtons(){
 
     let buttonsSubmit = document.getElementsByClassName('submit');
+    let buttonHidden = document.getElementById("id");
 
+            console.log("adding ev to submit button");
     for (let i = 0; i < buttonsSubmit.length; i++) {
-        buttonsSubmit[i].addEventListener('click', function(event){
-            //console.log("adding ev to submit button");
+        buttonsSubmit[i].addEventListener('click', function(event){;
+            console.log("adding ev to submit button");
             var req = new XMLHttpRequest();
             event.preventDefault();
 
@@ -118,50 +116,19 @@ function bindButtons(){
             console.log("time_closed:", time_closed)
             console.log("cid:", cid)
 
-            req.open('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid, true);
-            //console.log('GET', '/insert?table={{table}}' + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid);
-            req.onload = function() {
-                let res = req.responseText;
-                //update();
-                location.reload();
-            }
+            req.open('GET', '/safe-update?table={{table}}' +  '&id=' + buttonHidden.value + '&day_of_week= ' + day_of_week + "&time_open=" + time_open + "&time_closed=" + time_closed + '&cid=' + cid, true);
 
             event.preventDefault();
+            req.onload = function() {
+                let res = req.responseText;
+                window.location.href = '/{{table}}';
+            }
+
             req.send(null);
-
-
+            
         });
     }
-
-        // hidden row id
-        let buttonsHidden = document.getElementsByClassName("hidden");
-
-
-        let buttonsDelete = document.getElementsByClassName("buttonDelete");
-
-        for (let i = 0; i < buttonsDelete.length; i++) {
-        console.log(buttonsHidden[i]);
-        buttonsDelete[i].addEventListener('click', function(event){;
-            console.log("adding ev to delete button");
-            event.preventDefault();
-            var req = new XMLHttpRequest();
-
-            console.log("/delete?table={{table}}&id=" + buttonsHidden[i].value);
-            req.open('GET', '/delete?table={{table}}&id=' + buttonsHidden[i].value, true);
-
-            req.onload = function() {
-                let res = req.responseText;
-                location.reload();
-            }
-
-            req.send(null);
-        });
-    };
 }
-
-
 </script>
-
-<!--<script src="tabler.js"></script>-->
 
 

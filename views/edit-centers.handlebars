@@ -1,0 +1,125 @@
+<div id="add">
+</div>
+
+<div id="form">
+</div>
+
+<div id="table">
+</div>
+
+<pre id="results">{{results}}</pre>
+
+
+
+
+<form id="formOld" action="/safe-update" method="get">
+<fieldset>
+  <legend>edit</legend>
+      {{#each centers}} 
+    <label>
+      <span class="name">name</span>
+      <span> ⇢ </span>
+      <input size="20" name="name" value={{name}} id="name" type="text_input">
+    </label>
+    <label>
+        <span class="name">street_number</span>
+        <span> ⇢ </span>
+        <input size="20" name="street_number" value={{street_number}} id="street_number" type="text_input">
+    </label>
+    <label>
+        <span class="name">street_direction</span>
+        <span> ⇢ </span>
+        <input size="20" name="street_direction" value={{street_direction}} id="street_direction" type="text_input">
+    </label>
+    <label>
+        <span class="name">street_name</span>
+        <span> ⇢ </span>
+        <input size="20" name="street_name" value={{street_name}} id="street_name" type="text_input">
+    </label>
+    <label>
+        <span class="name">street_type</span>
+        <span> ⇢ </span>
+        <input size="20" name="street_type" value={{street_type}} id="street_type" type="text_input">
+    </label>
+    <label>
+        <span class="name">city</span>
+        <span> ⇢ </span>
+        <input size="20" name="city" id="city" value={{city}} type="text_input">
+    </label>
+    <label>
+        <span class="name">state</span>
+        <span> ⇢ </span>
+        <input size="20" name="state" value={{state}} id="state" type="text_input">
+    </label>
+    <label>
+        <span class="name">zip</span>
+        <span> ⇢ </span>
+        <input size="20" name="zip" value={{zip}} id="zip" type="text_input">
+    </label>
+
+<input id="table" name="table" value={{table}} class="hidden-table" type="hidden">
+<input id="id" name="id" value={{id}} class="hidden" type="hidden">
+  <input class="submit" value="Submit" type="submit">
+  {{/each}} 
+</fieldset>
+</form>
+
+<h2>{{table}}</h2>
+  {{#each centers}} 
+<table>
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>location</th>
+  </tr>
+  <tr>
+    <td>{{id}}</td>
+    <td>{{name}}</td>
+    <td>{{street_number}} {{street_direction}} {{street_name}} {{street_type}} {{city}} {{state}} {{zip}}</td>
+  </tr> 
+  {{/each}} 
+</table> 
+
+<script>
+
+// wait until the DOM before starting buttons
+document.addEventListener('DOMContentLoaded', bindButtons);
+
+function bindButtons(){
+
+    let buttonsSubmit = document.getElementsByClassName('submit');
+    let buttonHidden = document.getElementById("id");
+
+            console.log("adding ev to submit button");
+    for (let i = 0; i < buttonsSubmit.length; i++) {
+        buttonsSubmit[i].addEventListener('click', function(event){;
+            console.log("adding ev to submit button");
+            var req = new XMLHttpRequest();
+            event.preventDefault();
+
+            let name = document.getElementById("name").value;
+            let street_number = document.getElementById("street_number").value;
+            let street_direction = document.getElementById("street_direction").value;
+            let street_name = document.getElementById("street_name").value;
+            let street_type = document.getElementById("street_type").value;
+            let city = document.getElementById("city").value;
+            let state = document.getElementById("state").value;
+            let zip = document.getElementById("zip").value;
+
+            req.open('GET', '/safe-update?table={{table}}' + "&id=" + buttonHidden.value + '&name= ' + name + "&street_number=" + street_number + "&street_direction=" + street_direction + "&street_name=" + street_name + "&street_type=" + street_type + "&city=" + city + "&state=" + state + "&zip=" + zip, true);
+
+
+            event.preventDefault();
+            req.onload = function() {
+                let res = req.responseText;
+                window.location.href = '/{{table}}';
+            }
+
+            req.send(null);
+            
+        });
+    }
+}
+</script>
+
+

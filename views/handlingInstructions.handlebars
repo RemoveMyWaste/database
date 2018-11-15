@@ -1,7 +1,7 @@
 {{error}}
 
 
-<h2>materials </h2>
+<h2>handlingInstructions </h2>
 <p>⇢ hazardous!</p>
 <br />
 <br />
@@ -9,16 +9,11 @@
 
 <form action="/insert" method="get">
 <fieldset>
-  <legend>add new material</legend>
+  <legend>add new handling instructions</legend>
     <label>
-      <span class="name">name</span>
+      <span class="name">instructions</span>
       <span> ⇢ </span>
-      <input size="20" name="name" placeholder="Upsidaisium" id="name" type="text_input">
-    </label>
-    <label>
-      <span class="name">pro</span>
-      <span> ⇢ </span>
-      <input size="20" name="pro" id="pro" type="checkbox">
+      <input size="20" name="instructions" placeholder="Do not drop." id="instructions" type="text_input">
     </label>
   <input class="submit" value="Submit" type="submit">
 </fieldset>
@@ -28,16 +23,14 @@
 <table>
   <tr>
     <th>id</th>
-    <th>name</th>
-    <th>pro</th>
+    <th>instructions</th>
   </tr>
-  {{#each materials}}
+  {{#each handlingInstructions}}
   <tr>
     <td>{{id}}</td>
-    <td>{{name}}</td>
-    <td>{{pro}}</td>
+    <td>{{instructions}}</td>
     <td>
-    <form action="/edit-materials" method="get">
+    <form action="/edit-handlingInstructions" method="get">
     <input value="Edit" class="buttonEdit" type="submit">
     <input name="table" value="user" class="hidden-table" type="hidden">
     <input name="id" value={{id}} class="hidden" type="hidden">
@@ -62,26 +55,12 @@ function bindButtons(){
 
     for (let i = 0; i < buttonsSubmit.length; i++) {
         buttonsSubmit[i].addEventListener('click', function(event){
-            //console.log("adding ev to submit button");
             var req = new XMLHttpRequest();
             event.preventDefault();
 
-            let name = document.getElementById("name").value;
-            console.log("@@ name:", name);
+            let instructions = document.getElementById("instructions").value;
 
-            let proStatus = document.getElementById("pro").checked;
-            console.log("@@ proStatus:", proStatus);
-
-            let pro = -5;
-            if (proStatus == true) {
-                pro = 1;
-            }
-            else {
-                pro = 0;
-            }
-            console.log("pro: ", pro);
-
-            req.open('GET', '/insert?table=materials&name= ' + name + "&purpose=" + "&pro=" + pro, true);
+            req.open('GET', '/insert?table={{table}}' + '&instructions=' + instructions, true);
             req.onload = function() {
                 let res = req.responseText;
                 //update();
@@ -97,7 +76,6 @@ function bindButtons(){
 
         // hidden row id
         let buttonsHidden = document.getElementsByClassName("hidden");
-
 
         let buttonsDelete = document.getElementsByClassName("buttonDelete");
 
@@ -125,5 +103,3 @@ function bindButtons(){
 </script>
 
 <!--<script src="tabler.js"></script>-->
-
-

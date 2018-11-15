@@ -57,15 +57,6 @@ app.get('/search',function(req,res,next){
                 }
                 context.centers = rows; //JSON.stringify(rows);
 
-                sql = `SELECT * FROM hazards WHERE (hazards.hazards LIKE "%"?"%")`;
-                inserts = [req.query.search];
-
-                mysql.pool.query(sql,inserts, function(err, rows, fields){
-                    if(err){
-                        next(err);
-                        return;
-                    }
-                    context.hazards = rows; //JSON.stringify(rows);
 
                     sql = `SELECT * FROM schedules WHERE (schedules.day_of_week LIKE "%"?"%")`;
                     inserts = [req.query.search];
@@ -93,7 +84,6 @@ app.get('/search',function(req,res,next){
                             res.render('search', context);
                         });
                     });
-                });
             });
         });
     });
@@ -134,6 +124,39 @@ app.get('/materials',function(req,res,next){
 
 
 // home page (GET request)
+app.get('/handlingInstructions',function(req,res,next){
+    var context = {};
+    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
+    sql = 'SELECT * FROM handlingInstructions';
+    mysql.pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.handlingInstructions = rows;
+        context.table = "handlingInstructions";
+        res.render('handlingInstructions', context);
+    });
+});
+
+
+// home page (GET request)
+app.get('/disposalInstructions',function(req,res,next){
+    var context = {};
+    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
+    sql = 'SELECT * FROM disposalInstructions';
+    mysql.pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.disposalInstructions = rows;
+        context.table = "disposalInstructions";
+        res.render('disposalInstructions', context);
+    });
+});
+
+// home page (GET request)
 app.get('/centers',function(req,res,next){
     var context = {};
     // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
@@ -143,60 +166,52 @@ app.get('/centers',function(req,res,next){
             next(err);
             return;
         }
-        context.table = "centers";
         context.centers = rows;
+        context.table = "centers";
         res.render('centers', context);
     });
 });
 
-
-// home page (GET request)
-app.get('/hazards',function(req,res,next){
-    var context = {};
-    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
-    sql = 'SELECT * FROM hazards';
-    mysql.pool.query(sql, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-
-        context.table = "hazards";
-        context.hazards = rows;
-        res.render('hazards', context);
-    });
-});
 
 
 // home page (GET request)
 app.get('/schedules',function(req,res,next){
     var context = {};
     sql = `
-            SELECT S.day_of_week, S.time_open, S.time_closed, C.name as centers,
+            SELECT S.id, S.day_of_week, S.time_open, S.time_closed, C.name as centers,
             CASE
-                WHEN S.day_of_week = 1 THEN "Sunday"
-                WHEN S.day_of_week = 2 THEN "Monday"
-                WHEN S.day_of_week = 3 THEN "Tuesday"
-                WHEN S.day_of_week = 4 THEN "Wednesday"
-                WHEN S.day_of_week = 5 THEN "Thursday"
-                WHEN S.day_of_week = 6 THEN "Friday"
-                WHEN S.day_of_week = 7 THEN "Saturday"
+                WHEN S.day_of_week = 1 THEN "sunday"
+                WHEN S.day_of_week = 2 THEN "monday"
+                WHEN S.day_of_week = 3 THEN "tuesday"
+                WHEN S.day_of_week = 4 THEN "wednesday"
+                WHEN S.day_of_week = 5 THEN "thursday"
+                WHEN S.day_of_week = 6 THEN "friday"
+                WHEN S.day_of_week = 7 THEN "saturday"
                 ELSE "invalid day number"
             END AS day_of_week
             FROM centers C INNER JOIN schedules S ON C.id = S.cid`;
 
 
-        //sql = 'SELECT * FROM schedules';
+    //sql = 'SELECT * FROM schedules';
+    mysql.pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+
+        context.table = "schedules";
+        context.schedules = rows;
+
+        sql = 'SELECT * FROM centers';
         mysql.pool.query(sql, function(err, rows, fields){
             if(err){
                 next(err);
                 return;
             }
-
-            context.table = "schedules";
-            context.schedules = rows;
+            context.centers = rows;
             res.render('schedules', context);
         });
+    });
 });
 
 // home page (GET request)
@@ -256,31 +271,40 @@ app.get('/',function(req,res,next){
             }
             context.materials = rows;
 
-            sql = 'SELECT COUNT(*) AS num FROM centers';
+            sql = 'SELECT COUNT(*) AS num FROM handlingInstructions';
             mysql.pool.query(sql, function(err, rows, fields){
                 if(err){
                     next(err);
                     return;
                 }
-                context.centers = rows;
+                context.handlingInstructions = rows;
 
-                sql = 'SELECT COUNT(*) AS num FROM hazards';
+                sql = 'SELECT COUNT(*) AS num FROM disposalInstructions';
                 mysql.pool.query(sql, function(err, rows, fields){
                     if(err){
                         next(err);
                         return;
                     }
-                    context.hazards = rows;
+                    context.disposalInstructions = rows;
 
-                sql = 'SELECT COUNT(*) AS num FROM locations';
-                mysql.pool.query(sql, function(err, rows, fields){
-                    if(err){
-                        next(err);
-                        return;
-                    }
-                    context.locations = rows;
-                    res.render('home', context);
-                });
+                    sql = 'SELECT COUNT(*) AS num FROM centers';
+                    mysql.pool.query(sql, function(err, rows, fields){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                        context.centers = rows;
+
+                        sql = 'SELECT COUNT(*) AS num FROM schedules';
+                        mysql.pool.query(sql, function(err, rows, fields){
+                            if(err){
+                                next(err);
+                                return;
+                            }
+                            context.schedules = rows;
+                            res.render('home', context);
+                        });
+                    });
                 });
             });
         });
@@ -364,24 +388,33 @@ app.get('/insert',function(req,res,next){
     let inserts;
 
     if (req.query.table == "users"){
-        sql = "INSERT INTO users (`name`, `password`) VALUES (?, ?)";
-        inserts = [req.query.name, req.query.password];
+        sql = "INSERT INTO users (`name`, `password`, `notifications`) VALUES (?, ?, ?)";
+        inserts = [req.query.name, req.query.password, req.query.notifications];
     }
 
     else if (req.query.table == "materials"){
-        sql = "INSERT INTO author (`name`, `rating`) VALUES (?, ?)";
-        inserts = [req.query.name, req.query.rating];
+        sql = "INSERT INTO materials (`name`, `pro`) VALUES (?, ?)";
+        inserts = [req.query.name, req.query.pro];
     }
 
     else if (req.query.table == "centers"){
         sql = "INSERT INTO centers(`name`, `street_number`, `street_direction`, `street_name`, `street_type`, `city`, `state`, `zip`) values(?, ?, ?, ?, ?, ?, ?, ?)";
-        inserts = [req.query.name, req.query.street_number, req.query.street_direction, req.query.street_name, req.query.street_type, req.query.city, req.query.state, zip];
-
+        inserts = [req.query.name, req.query.street_number, req.query.street_direction, req.query.street_name, req.query.street_type, req.query.city, req.query.state, req.query.zip];
     }
 
-    else if (req.query.table == "hazards"){
-        sql = "INSERT INTO hazards (`hazards`, `handling`) VALUES (?, ?)";
-        inserts = [req.query.hazards, req.query.handling];
+    else if (req.query.table == "schedules"){
+        sql = "INSERT INTO schedules (`day_of_week`, `time_open`, `time_closed`, `cid`) VALUES (?, ?, ?, ?)";
+        inserts = [req.query.day_of_week, req.query.time_open, req.query.time_closed, req.query.cid];
+    }
+
+    else if (req.query.table == "handlingInstructions"){
+        sql = "INSERT INTO handlingInstructions (`instructions`) VALUES (?)";
+        inserts = [req.query.instructions];
+    }
+
+    else if (req.query.table == "disposalInstructions"){
+        sql = "INSERT INTO disposalInstructions (`instructions`) VALUES (?)";
+        inserts = [req.query.instructions];
     }
 
 
@@ -443,38 +476,35 @@ app.get('/safe-update',function(req,res,next){
         if(result.length == 1){
             var curVals = result[0];
 
-            if (req.query.table == "program"){
-                sql = "UPDATE program SET name=?, purpose=?, url=?, version=?, license=? WHERE id=? ";
-                inserts = [req.query.name || curVals.name, req.query.purpose || curVals.purpose, req.query.url || curVals.url, req.query.version || curVals.version, req.query.license || curVals.license, req.query.id];
+            if (req.query.table == "users"){
+                sql = "UPDATE users SET name=?, password=?, notifications=? WHERE id=? ";
+                inserts = [req.query.name || curVals.name, req.query.password || curVals.password, req.query.notifications || curVals.notifications, req.query.id];
             }
 
-            else if (req.query.table == "author"){
-                sql = "UPDATE author SET name=?, url=?  WHERE id=? ";
-                inserts = [req.query.name || curVals.name, req.query.url || curVals.url, req.query.id];
+            else if (req.query.table == "materials"){
+                sql = "UPDATE materials SET name=?, pro=?  WHERE id=? ";
+                inserts = [req.query.name || curVals.name, req.query.pro || curVals.pro, req.query.id];
             }
 
-            else if (req.query.table == "language"){
-                sql = "UPDATE language SET name=?, url=?  WHERE id=? ";
-                inserts = [req.query.name || curVals.name, req.query.url || curVals.url, req.query.id];
+
+            else if (req.query.table == "handlingInstructions"){
+                sql = "UPDATE handlingInstructions SET instructions=?  WHERE id=? ";
+                inserts = [req.query.instructions || curVals.instructions, req.query.id];
             }
 
-            else if (req.query.table == "os"){
-                sql = "UPDATE os SET name=?, url=?  WHERE id=? ";
-                inserts = [req.query.name || curVals.name, req.query.url || curVals.url, req.query.id];
+            else if (req.query.table == "disposalInstructions"){
+                sql = "UPDATE disposalInstructions SET instructions=?  WHERE id=? ";
+                inserts = [req.query.instructions || curVals.instructions, req.query.id];
             }
 
-            else if (req.query.table == "src"){
-                sql = "UPDATE src SET url=?, type=?, pid=(SELECT id FROM program WHERE name = ?) WHERE id=?";
-                inserts = [req.query.url || curVals.url, req.query.type || curVals.type, req.query.pid || curVals.pid, req.query.id];
-                console.log("update query.id: ", req.query.id);
-                console.log("update pid: ", req.query.pid);
+            else if (req.query.table == "centers"){
+                sql = "UPDATE centers SET name=?, street_number=?, street_direction=?, street_name=?, street_type=?, city=?, state=?, zip=? WHERE id=? ";
+                inserts = [req.query.name || curVals.name, req.query.street_direction || curVals.street_direction, req.query.street_number || curVals.street_number,req.query.street_name || curVals.street_name, req.query.street_type || curVals.street_type,req.query.city || curVals.city, req.query.state || curVals.state, req.query.zip || curVals.zip, req.query.id];
             }
 
-            else if (req.query.table == "program_language"){
-                sql = "UPDATE program_language SET pid=?, lid=? WHERE pid=? AND lid=?";
-                inserts = [req.query.pid || curVals.pid, req.query.lid || curVals.lid, req.query.pidnew || curVals.pidnew, req.query.lidnew || curVals.lidnew, req.query.id];
-                console.log("update query.id: ", req.query.id);
-                console.log("update pid: ", req.query.pid);
+            else if (req.query.table == "schedules"){
+                sql = "UPDATE schedules SET day_of_week=?, time_open=?, time_closed=?, cid=? WHERE id=? ";
+                inserts = [req.query.day_of_week || curVals.day_of_week, req.query.time_open || curVals.time_open, req.query.time_closed || curVals.time_closed, req.query.cid || curVals.cid, req.query.id];
             }
 
 
@@ -558,34 +588,105 @@ app.get('/edit-users', function(req,res,next) {
 });
 
 
-app.get('/edit-author', function(req,res,next) {
+app.get('/edit-materials', function(req,res,next) {
     var context = {};
-    sql = 'SELECT * FROM author WHERE id=?';
+    sql = 'SELECT * FROM materials WHERE id=?';
     inserts = [req.query.id];
     mysql.pool.query(sql, inserts , function(err, rows, fields){
         if(err){
             next(err);
             return;
         }
-        context.table = "author";
-        context.author = rows;
-        res.render('edit-author.handlebars', context);
+        context.table = "materials";
+        context.materials = rows;
+        res.render('edit-materials.handlebars', context);
+    });
+});
+
+app.get('/edit-centers', function(req,res,next) {
+    var context = {};
+    sql = 'SELECT * FROM centers WHERE id=?';
+    inserts = [req.query.id];
+    mysql.pool.query(sql, inserts , function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.table = "centers";
+        context.centers = rows;
+        res.render('edit-centers.handlebars', context);
     });
 });
 
 
-app.get('/edit-language', function(req,res,next) {
+app.get('/edit-handlingInstructions', function(req,res,next) {
     var context = {};
-    sql = 'SELECT * FROM language WHERE id=?';
+    sql = 'SELECT * FROM handlingInstructions WHERE id=?';
     inserts = [req.query.id];
     mysql.pool.query(sql, inserts , function(err, rows, fields){
         if(err){
             next(err);
             return;
         }
-        context.table = "language";
-        context.language = rows;
-        res.render('edit-language.handlebars', context);
+        context.table = "handlingInstructions";
+        context.handlingInstructions = rows;
+        res.render('edit-handlingInstructions.handlebars', context);
+    });
+});
+
+
+app.get('/edit-disposalInstructions', function(req,res,next) {
+    var context = {};
+    sql = 'SELECT * FROM disposalInstructions WHERE id=?';
+    inserts = [req.query.id];
+    mysql.pool.query(sql, inserts , function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.table = "disposalInstructions";
+        context.disposalInstructions = rows;
+        res.render('edit-disposalInstructions.handlebars', context);
+    });
+});
+
+
+app.get('/edit-schedules', function(req,res,next) {
+    var context = {};
+    sql = `
+            SELECT S.id, S.day_of_week, S.time_open, S.time_closed, C.name as centers,
+            CASE
+                WHEN S.day_of_week = 1 THEN "sunday"
+                WHEN S.day_of_week = 2 THEN "monday"
+                WHEN S.day_of_week = 3 THEN "tuesday"
+                WHEN S.day_of_week = 4 THEN "wednesday"
+                WHEN S.day_of_week = 5 THEN "thursday"
+                WHEN S.day_of_week = 6 THEN "friday"
+                WHEN S.day_of_week = 7 THEN "saturday"
+                ELSE "invalid day number"
+            END AS day_of_week
+            FROM centers C INNER JOIN schedules S ON C.id = S.cid
+            WHERE S.id=?`;
+    inserts = [req.query.id];
+
+    mysql.pool.query(sql, inserts , function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.table = "schedules";
+        context.schedules = rows;
+
+        sql = "SELECT * FROM centers";
+        mysql.pool.query(sql, inserts , function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+
+            context.centers = rows;
+            res.render('edit-schedules.handlebars', context);
+        });
     });
 });
 
