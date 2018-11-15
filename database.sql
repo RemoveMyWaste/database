@@ -331,9 +331,9 @@ INSERT INTO materials(name, pro) values("loose/fallen branches", false);
 INSERT INTO materials_disposal(mid, did) values (52, 4);
 
 INSERT INTO materials(name, pro) values("leaves/grass", false);
-INSERT INTO material_handling(mid, hid) values (53, 7);
-INSERT INTO material_disposal(mid, did) values (53, 5);
-INSERT INTO material_disposal(mid, did) values (53, 6);
+INSERT INTO materials_handling(mid, hid) values (53, 7);
+INSERT INTO materials_disposal(mid, did) values (53, 5);
+INSERT INTO materials_disposal(mid, did) values (53, 6);
 
 -- More materials (PRO DISPOSAL)
 INSERT INTO materials(name, pro) values("plywood", true);
