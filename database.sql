@@ -30,6 +30,8 @@ CREATE TABLE disposalInstructions(
 );
 
 
+-- TODO: add centers_materials table (many to many) to associate what centers can accept what materials.
+-- This is probably going to be a slog (if half the centers can accept half the materials, that's still ~25 * ~number-of-centers. Hachi machi.)
 CREATE TABLE centers(
     id int(10) NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
