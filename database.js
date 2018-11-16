@@ -33,9 +33,9 @@ app.get('/search',function(req,res,next){
             next(err);
             return;
         }
-        console.log("rows: " + JSON.stringify(rows));
+        //console.log("rows: " + JSON.stringify(rows));
         context.users = rows; //JSON.stringify(rows);
-        console.log("rows: " + context.users);
+        //console.log("rows: " + context.users);
 
         sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%")`;
         inserts = [req.query.search];
@@ -80,7 +80,7 @@ app.get('/search',function(req,res,next){
                             context.users_centers = rows; //JSON.stringify(rows);
 
 
-                            console.log("myresults: " + JSON.stringify(context));
+                            //console.log("myresults: " + JSON.stringify(context));
                             res.render('search', context);
                         });
                     });
@@ -89,6 +89,42 @@ app.get('/search',function(req,res,next){
     });
 });
 
+
+// home page (GET request)
+app.get('/search-materials',function(req,res,next){
+    var context = {};
+    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
+    /*
+      sql = `SELECT * FROM program WHERE (program.name LIKE "%"?"%");
+      SELECT * FROM author WHERE (author.name LIKE "%"?"%");
+      SELECT * FROM language WHERE (language.name LIKE "%"?"%");
+      SELECT * FROM os WHERE (os.name LIKE "%"?"%");
+      SELECT * FROM src WHERE (src.url LIKE "%"?"%");`
+    */
+
+    sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%")`;
+    inserts = [req.query.search];
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.materials = rows; //JSON.stringify(rows);
+
+        sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%")`;
+        inserts = [req.query.search];
+
+        mysql.pool.query(sql,inserts, function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+            context.materials = rows; //JSON.stringify(rows);
+            res.render('search-materials', context);
+        });
+    });
+});
 
 // home page (GET request)
 app.get('/users',function(req,res,next){
