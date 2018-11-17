@@ -3,18 +3,21 @@
 SET storage_engine=INNODB;
 
 -- drop tables to update everything
-DROP TABLE IF EXISTS users_centers;
 DROP TABLE IF EXISTS users_materials;
+DROP TABLE IF EXISTS users_centers;
+
 DROP TABLE IF EXISTS materials_handling;
 DROP TABLE IF EXISTS materials_disposal;
-DROP TABLE IF EXISTS schedules;
-DROP TABLE IF EXISTS centers;
-DROP TABLE IF EXISTS hazards;
-DROP TABLE IF EXISTS materials;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS handlingInstructions;
 DROP TABLE IF EXISTS disposalInstructions;
+
+
+DROP TABLE IF EXISTS centers_materials;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS materials;
+DROP TABLE IF EXISTS schedules;
+DROP TABLE IF EXISTS centers;
+DROP TABLE IF EXISTS locations;
 
 
 CREATE TABLE handlingInstructions(
@@ -31,7 +34,6 @@ CREATE TABLE disposalInstructions(
 
 
 -- TODO: add centers_materials table (many to many) to associate what centers can accept what materials.
--- This is probably going to be a slog (if half the centers can accept half the materials, that's still ~25 * ~number-of-centers. Hachi machi.)
 CREATE TABLE centers(
     id int(10) NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
@@ -86,8 +88,15 @@ CREATE TABLE materials_disposal(
     PRIMARY KEY(mid, did)
 );
 
+CREATE TABLE centers_materials(
+    cid int(10) NOT NULL,
+    mid int(10) NOT NULL,
+    FOREIGN KEY(cid) REFERENCES centers(id),
+    FOREIGN KEY(mid) REFERENCES materials(id),
+    PRIMARY KEY(cid, mid)
+);
 
--- "main" users table
+-- users table
 CREATE TABLE users(
     id int(10) NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
@@ -373,20 +382,110 @@ INSERT INTO centers(name, street_number, street_direction, street_name, street_t
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
             values("Disposal and Disposal", 426, "E", "disposal", "street", "Corvallis", "Oregon", "23452");
 
--- add center schedules (operating days and hours)
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (1, '09:00', '17:00', 1);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (2, '09:00', '17:00', 1);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (3, '09:00', '17:00', 1);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (4, '09:00', '17:00', 1);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (5, '09:00', '17:00', 1);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (6, '09:00', '17:00', 1);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (7, '09:00', '17:00', 1);
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Republic Services", 110, "NE", "walnut", "blvd", "corvallis", "Oregon", "97330");
 
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (2, '06:00', '18:00', 2);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (3, '06:00', '18:00', 2);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (4, '06:00', '18:00', 2);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (5, '06:00', '18:00', 2);
-INSERT INTO schedules(day_of_week, time_open, time_closed, cid) VALUES (6, '06:00', '18:00', 2);
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Corvallis Battery", 516, "SW", "4th", "street", "corvallis", "Oregon", "97333");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Valley Landfills Inc", 28972, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Coffin Butte Landfill", 29175, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Canusa Hershman Recycling", 426, "N", "Wooded Knolls", "Drive", "Corvallis", "Oregon", "97370"); --10
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Burcham's Metals Inc", 3407, "SW", "Pacific", "Boulevard", "Albany", "Oregon", "97321");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Apex Property Clearing & Recycling", 97322, "NE", "Bernard", "Avenue", "Albany", "Oregon", "97322");
+
+
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Devilish Disposal", 666, "W", "hell", "highway", "hell", "Oregon", "66666");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Cool Disposal Inc.", 123, "S", "cool", "street", "coolsville", "Oregon", "12345");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Disposal R Us", 412, "E", "main", "street", "Portland", "Oregon", "25352"); --15
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Eds Disposal Imporium", 241, "N", "ed", "street", "Ed", "Oregon", "23452");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Disposal and Disposal", 426, "E", "disposal", "street", "Corvallis", "Oregon", "23452");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Republic Services", 110, "NE", "walnut", "blvd", "corvallis", "Oregon", "97330");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Corvallis Battery", 516, "SW", "4th", "street", "corvallis", "Oregon", "97333");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Valley Landfills Inc", 28972, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330"); --20
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Coffin Butte Landfill", 29175, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Canusa Hershman Recycling", 426, "N", "Wooded Knolls", "Drive", "Corvallis", "Oregon", "97370");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Burcham's Metals Inc", 3407, "SW", "Pacific", "Boulevard", "Albany", "Oregon", "97321");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Apex Property Clearing & Recycling", 97322, "NE", "Bernard", "Avenue", "Albany", "Oregon", "97322");
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Sandy Transfer Station", 19600, "SE", "Canyon Valley Rd", "Sandy", "Oregon", 97055) --25
+
+-- add center schedules (operating days and hours)
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 3, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 4, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 7, '09:00', '17:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 3, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 4, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 6, '06:00', '18:00');
+
+-- sandy transfer station (center #25)
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 7, '09:00', '17:00');
+
+-- center 1 materials
+INSERT INTO centers_materials(cid, mid) VALUES (1,1);
+INSERT INTO centers_materials(cid, mid) VALUES (1,2);
+INSERT INTO centers_materials(cid, mid) VALUES (1,3);
+
+-- center 2 materials
+INSERT INTO centers_materials(cid, mid) VALUES (2,1);
+INSERT INTO centers_materials(cid, mid) VALUES (2,2);
+INSERT INTO centers_materials(cid, mid) VALUES (2,3);
+
+-- center 3 materials
+INSERT INTO centers_materials(cid, mid) VALUES (3,1);
+INSERT INTO centers_materials(cid, mid) VALUES (3,2);
+INSERT INTO centers_materials(cid, mid) VALUES (3,3);
+
+-- center 25 materials (sandy transfer station)
+INSERT INTO centers_materials(cid, mid) VALUES (25,1);
+INSERT INTO centers_materials(cid, mid) VALUES (25,2);
+INSERT INTO centers_materials(cid, mid) VALUES (25,3);
+
 
 -- Week 2 user stuff
 
