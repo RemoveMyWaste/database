@@ -1,4 +1,3 @@
-
 -- set storage engine
 SET storage_engine=INNODB;
 
@@ -404,36 +403,30 @@ INSERT INTO centers(name, street_number, street_direction, street_name, street_t
             values("Apex Property Clearing & Recycling", 97322, "NE", "Bernard", "Avenue", "Albany", "Oregon", "97322");
 
 
+------Duplicates start 13 - 22
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("G&P Recycling Center", 1329, "W", "Jefferson", "Boulevard", "Los Angeles", "California", "90007");
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Devilish Disposal", 666, "W", "hell", "highway", "hell", "Oregon", "66666");
+            values("Homeboy Recycling", 1370, "E", "18th", "Street", "Los Angeles", "California", "90021");
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Cool Disposal Inc.", 123, "S", "cool", "street", "coolsville", "Oregon", "12345");
+            values("ASI Recycling Center", 5800, "N", "Atherton", "Street", "Long Beach", "California", "90840"); --15
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Disposal R Us", 412, "E", "main", "street", "Portland", "Oregon", "25352"); --15
+            values("Greenyard Recycling", 15358, "N", "Beach", "Boulevard", "Westminster", "California", "92683");
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Eds Disposal Imporium", 241, "N", "ed", "street", "Ed", "Oregon", "23452");
+            values("West Coast Recycling Center", 2041, "W", "Commonwealth", "Avenue", "Fullerton", "California", "93833");
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Disposal and Disposal", 426, "E", "disposal", "street", "Corvallis", "Oregon", "23452");
-
-INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Republic Services", 110, "NE", "walnut", "blvd", "corvallis", "Oregon", "97330");
-
-INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Corvallis Battery", 516, "SW", "4th", "street", "corvallis", "Oregon", "97333");
-
-INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Valley Landfills Inc", 28972, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330"); --20
+            values("Valley Landfills Inc", 28972, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330");
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
             values("Coffin Butte Landfill", 29175, "N", "Coffin Butte", "Road", "Corvallis", "Oregon", "97330");
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Canusa Hershman Recycling", 426, "N", "Wooded Knolls", "Drive", "Corvallis", "Oregon", "97370");
+            values("Canusa Hershman Recycling", 426, "N", "Wooded Knolls", "Drive", "Corvallis", "Oregon", "97370"); --20
 
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
             values("Burcham's Metals Inc", 3407, "SW", "Pacific", "Boulevard", "Albany", "Oregon", "97321");
@@ -441,8 +434,66 @@ INSERT INTO centers(name, street_number, street_direction, street_name, street_t
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
             values("Apex Property Clearing & Recycling", 97322, "NE", "Bernard", "Avenue", "Albany", "Oregon", "97322");
 
+---------Duplicates end
+
 INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
-            values("Sandy Transfer Station", 19600, "SE", "Canyon Valley Rd", "Sandy", "Oregon", 97055) --25
+            values("Sandy Transfer Station", 19600, "SE", "Canyon Valley", "Rd", "Sandy", "Oregon", "97055"); --23
+
+-- sandy transfer station (center #23)
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 7, '09:00', '17:00');
+
+-- center 23 materials (sandy transfer station)
+INSERT INTO centers_materials(cid, mid) VALUES (23,1);
+INSERT INTO centers_materials(cid, mid) VALUES (23,2);
+INSERT INTO centers_materials(cid, mid) VALUES (23,3);
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Environmentally Conscious Recycling", 12409, "NE", "San Rafael", "St", "Portland", "Oregon", "97294"); --24
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 1, '09:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 2, '09:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 3, '09:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 4, '09:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 5, '09:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 6, '09:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 7, '09:00', '18:00');
+
+INSERT INTO centers(name, street_number, street_name, street_type, city, state, zip) \
+            values("Metro South Transfer Station", 2001, "Washington", "St", "Oregon City", "Oregon", "97045"); --25
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 1, '07:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 2, '07:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 3, '07:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 4, '07:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 5, '07:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 6, '07:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 7, '07:00', '18:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Greenway Recycling", 4135, "NW", "St Helens", "Rd", "Portland","Oregon", "97210"); --26
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 2, '04:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 3, '04:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 4, '04:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 5, '04:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 6, '04:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 7, '08:00', '12:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            values("Good Garbage Junk Removal Hauling and Recycling", 5607, "SE", "Woodstock", "Blvd", "Portland","Oregon", "97206"); --27
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 3, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 4, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 7, '09:00', '17:00');
+
 
 -- add center schedules (operating days and hours)
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (1, 1, '09:00', '17:00');
@@ -459,12 +510,181 @@ INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 4, '0
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 5, '06:00', '18:00');
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (2, 6, '06:00', '18:00');
 
--- sandy transfer station (center #25)
-INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 1, '09:00', '17:00');
-INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 2, '09:00', '17:00');
-INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 5, '09:00', '17:00');
-INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 6, '09:00', '17:00');
-INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 7, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 1, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 3, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 4, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 6, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (3, 7, '06:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 1, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 2, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 3, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 4, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 5, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 6, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (4, 7, '05:30', '15:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (5, 2, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (5, 3, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (5, 4, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (5, 5, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (5, 6, '06:00', '15:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (6, 2, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (6, 3, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (6, 4, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (6, 5, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (6, 6, '07:30', '17:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (7, 1, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (7, 3, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (7, 4, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (7, 5, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (7, 6, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (7, 7, '08:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 3, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 4, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (8, 7, '09:00', '17:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (9, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (9, 3, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (9, 4, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (9, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (9, 6, '06:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (10, 1, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (10, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (10, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (10, 6, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (10, 7, '06:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (11, 1, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (11, 2, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (11, 3, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (11, 4, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (11, 5, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (11, 6, '05:30', '15:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (12, 2, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (12, 3, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (12, 4, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (12, 5, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (12, 6, '06:00', '15:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (13, 2, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (13, 3, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (13, 4, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (13, 5, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (13, 6, '07:30', '17:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (14, 3, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (14, 4, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (14, 5, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (14, 6, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (14, 7, '08:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 3, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 4, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (15, 7, '09:00', '17:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (16, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (16, 3, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (16, 4, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (16, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (16, 6, '06:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 1, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 3, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 4, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 6, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (17, 7, '06:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 1, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 2, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 3, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 4, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 5, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 6, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (18, 7, '05:30', '15:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (19, 2, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (19, 3, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (19, 4, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (19, 5, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (19, 6, '06:00', '15:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (20, 2, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (20, 3, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (20, 4, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (20, 5, '07:30', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (20, 6, '07:30', '17:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (21, 1, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (21, 3, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (21, 4, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (21, 5, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (21, 6, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (21, 7, '08:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 1, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 3, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 4, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 7, '09:00', '17:00');
+
+/*
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 2, '05:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 3, '05:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 4, '05:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 5, '05:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 6, '05:00', '15:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 1, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 2, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 5, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 6, '06:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (24, 7, '06:00', '18:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 1, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 2, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 3, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 4, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 5, '05:30', '15:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (25, 6, '05:30', '15:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 2, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 3, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 4, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 5, '06:00', '15:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (26, 6, '06:00', '15:00');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 2, '09:00', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 3, '09:00', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 4, '09:00', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 5, '09:00', '17:30');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (27, 6, '09:00', '17:30');
+
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 3, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 4, '05:00', '14:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 5, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 6, '08:00', '18:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 7, '05:00', '14:00');
+*/
 
 -- center 1 materials
 INSERT INTO centers_materials(cid, mid) VALUES (1,1);
@@ -481,10 +701,11 @@ INSERT INTO centers_materials(cid, mid) VALUES (3,1);
 INSERT INTO centers_materials(cid, mid) VALUES (3,2);
 INSERT INTO centers_materials(cid, mid) VALUES (3,3);
 
--- center 25 materials (sandy transfer station)
-INSERT INTO centers_materials(cid, mid) VALUES (25,1);
-INSERT INTO centers_materials(cid, mid) VALUES (25,2);
-INSERT INTO centers_materials(cid, mid) VALUES (25,3);
+
+
+
+
+
 
 
 -- Week 2 user stuff
