@@ -1,0 +1,38 @@
+{{#if materials}}
+
+{{#each materials}}
+<p>id: {{id}}</p>
+<p>name: {{name}}</p> 
+<p>pro: {{pro}}</p>
+<hr />
+{{/each}}
+
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>pro</th>
+  </tr>
+  {{#each materials}}
+  <tr>
+    <td>{{id}}</td>
+    <td>{{name}}</td>
+    <td>{{pro}}</td>
+    <td>
+    <form action="/edit-materials" method="get">
+    <input value="Edit" class="buttonEdit" type="submit">
+    <input name="table" value="user" class="hidden-table" type="hidden">
+    <input name="id" value={{id}} class="hidden" type="hidden">
+    </form>
+    <form action="/delete" method="get">
+    <input value="Delete" class="buttonDelete" type="submit">
+    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+{{else}}
+<h2>No materials found</h2>
+
+{{/if}}

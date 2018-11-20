@@ -93,6 +93,7 @@ app.get('/search',function(req,res,next){
 // home page (GET request)
 app.get('/search-materials',function(req,res,next){
     var context = {};
+    context.layout = false;
     // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
     /*
       sql = `SELECT * FROM program WHERE (program.name LIKE "%"?"%");
