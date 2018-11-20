@@ -1,7 +1,11 @@
 {{#if materials}}
 {{#each materials}}
-name: {{name}}
-pro: {{pro}}
+{{name}}
+{{#if pro}}
+Professional disposal required.
+{{else}}
+Home disposal allowed.
+{{/if}}
 
 {{/each}}
 
