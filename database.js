@@ -127,6 +127,30 @@ app.get('/search-materials',function(req,res,next){
     });
 });
 
+
+// home page (GET request)
+app.get('/search-handling',function(req,res,next){
+    var context = {};
+    context.layout = false;
+
+    sql = `SELECT H.instructions FROM materials_handling MH 
+    INNER JOIN materials M ON M.id = MH.mid
+    INNER JOIN handlingInstructions H ON H.id = MH.HID
+    WHERE (M.name = ?)`;
+
+    inserts = [req.query.search];
+    console.log(req.query.search);
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.instructions = rows; //JSON.stringify(rows);
+        res.render('search-handling', context);
+    });
+});
+
 // home page (GET request)
 app.get('/users',function(req,res,next){
     var context = {};
