@@ -647,6 +647,83 @@ INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 5, '
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 6, '09:00', '17:00');
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (22, 7, '09:00', '17:00');
 
+--Centers and schedules for Austin, TX
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            VALUES ("Household Hazardous Waste Facility", 2514, , "Business Center", "Drive", "Austin", "Texas", 78744);  --28
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 2, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 3, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 4, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 5, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 6, '09:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (28, 7, '09:00', '17:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            VALUES ("Central Texas Refuse", 9316, , "FM812", "Road", "Austin", "Texas", "78719");    --29
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (29, 2, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (29, 3, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (29, 4, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (29, 5, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (29, 6, '08:00', '17:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            VALUES ("Waste Connections", 9904, , "FM812", "Road", "Austin", "Texas", "78719");      --30
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (30, 2, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (30, 3, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (30, 4, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (30, 5, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (30, 6, '08:00', '17:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            VALUES ("Waste Management", 9900, , "Giles", "Lane", "Austin", "Texas", "78754");       --31
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (31, 2, '07:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (31, 3, '07:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (31, 4, '07:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (31, 5, '07:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (31, 6, '07:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (31, 7, '07:00', '17:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            VALUES ("Texas Disposal Systems", 4001, "South", "Ranch", "Road", "Bee Cave", "Texas", "78738");  --32
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (32, 2, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (32, 3, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (32, 4, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (32, 5, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (32, 6, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (32, 2, '08:00', '15:00');
+
+INSERT INTO centers(name, street_number, street_direction, street_name, street_type, city, state, zip) \
+            VALUES ("Travis County Landfill", 9600, , "FM812", "Road", "Austin", "Texas", "78719");   --33
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (33, 2, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (33, 3, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (33, 4, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (33, 5, '08:00', '17:00');
+INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (33, 6, '08:00', '17:00');
+
+INSERT INTO centers_materials (cid, mid) VALUES (28, 4);
+INSERT INTO centers_materials (cid, mid) VALUES (28, 3);
+INSERT INTO centers_materials (cid, mid) VALUES (28, 6);
+
+INSERT INTO centers_materials (cid, mid) VALUES (29, 2);
+INSERT INTO centers_materials (cid, mid) VALUES (29, 10);
+INSERT INTO centers_materials (cid, mid) VALUES (29, 15);
+
+INSERT INTO centers_materials (cid, mid) VALUES (30, 8);
+INSERT INTO centers_materials (cid, mid) VALUES (30, 12);
+INSERT INTO centers_materials (cid, mid) VALUES (30, 10);
+
+INSERT INTO centers_materials (cid, mid) VALUES (31, 13);
+INSERT INTO centers_materials (cid, mid) VALUES (31, 9);
+INSERT INTO centers_materials (cid, mid) VALUES (31, 7);
+
+INSERT INTO centers_materials (cid, mid) VALUES (32, 1);
+INSERT INTO centers_materials (cid, mid) VALUES (32, 6);
+INSERT INTO centers_materials (cid, mid) VALUES (32, 8);
+
+INSERT INTO centers_materials (cid, mid) VALUES (33, 1);
+INSERT INTO centers_materials (cid, mid) VALUES (33, 2);
+INSERT INTO centers_materials (cid, mid) VALUES (33, 3);
+
 /*
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 2, '05:00', '15:00');
 INSERT INTO schedules(cid, day_of_week, time_open, time_closed) VALUES (23, 3, '05:00', '15:00');
