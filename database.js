@@ -139,7 +139,6 @@ app.get('/search-handling',function(req,res,next){
     WHERE (M.name = ?)`;
 
     inserts = [req.query.search];
-    console.log(req.query.search);
 
     mysql.pool.query(sql,inserts, function(err, rows, fields){
         if(err){
@@ -148,6 +147,28 @@ app.get('/search-handling',function(req,res,next){
         }
         context.instructions = rows; //JSON.stringify(rows);
         res.render('search-handling', context);
+    });
+});
+
+// home page (GET request)
+app.get('/search-centers',function(req,res,next){
+    var context = {};
+    context.layout = false;
+
+    sql = `SELECT C.name, C.street_number, C.street_direction, C.street_name, C.street_type, C.city, C.state, C.zip FROM centers_materials CM
+    INNER JOIN centers C ON C.id = CM.CID
+    INNER JOIN materials M ON M.id = CM.MID
+    WHERE (M.name = ?);`;
+
+    inserts = [req.query.search];
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.centers = rows; //JSON.stringify(rows);
+        res.render('search-centers', context);
     });
 });
 
