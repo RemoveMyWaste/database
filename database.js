@@ -173,6 +173,59 @@ app.get('/search-centers',function(req,res,next){
 });
 
 // home page (GET request)
+app.get('/search-schedules',function(req,res,next){
+    var context = {};
+    context.layout = false;
+
+    sql = `SELECT S.time_open, S.time_closed,
+    CASE
+        WHEN S.day_of_week = 1 THEN "sunday"
+        WHEN S.day_of_week = 2 THEN "monday"
+        WHEN S.day_of_week = 3 THEN "tuesday"
+        WHEN S.day_of_week = 4 THEN "wednesday"
+        WHEN S.day_of_week = 5 THEN "thursday"
+        WHEN S.day_of_week = 6 THEN "friday"
+        WHEN S.day_of_week = 7 THEN "saturday"
+        ELSE "invalid day number"
+    END AS day_of_week
+    FROM centers C INNER JOIN schedules S ON C.id = S.cid
+    WHERE (C.name = ?);`;
+
+    inserts = [req.query.search];
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.schedules = rows; //JSON.stringify(rows);
+        res.render('search-schedules', context);
+    });
+});
+
+// home page (GET request)
+app.get('/search-centers-materials',function(req,res,next){
+    var context = {};
+    context.layout = false;
+
+    sql = `SELECT M.name FROM centers_materials CM
+    INNER JOIN centers C ON C.id = CM.CID
+    INNER JOIN materials M ON M.id = CM.MID
+    WHERE (C.name = ?);`;
+
+    inserts = [req.query.search];
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.materials = rows; //JSON.stringify(rows);
+        res.render('search-centers-materials', context);
+    });
+});
+
+// home page (GET request)
 app.get('/users',function(req,res,next){
     var context = {};
     // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
