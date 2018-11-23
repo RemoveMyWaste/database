@@ -230,10 +230,10 @@ app.get('/search-disposal',function(req,res,next){
     var context = {};
     context.layout = false;
 
-    sql = `SELECT M.name FROM centers_materials CM
-    INNER JOIN centers C ON C.id = CM.CID
-    INNER JOIN materials M ON M.id = CM.MID
-    WHERE (C.name = ?);`;
+    sql = `SELECT D.instructions FROM materials_disposal MD
+    INNER JOIN materials M on M.id = MD.mid
+    INNER JOIN disposalInstructions D on D.id = MD.did
+    WHERE (M.name = ?);`;
 
     inserts = [req.query.search];
 
