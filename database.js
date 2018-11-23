@@ -94,14 +94,6 @@ app.get('/search',function(req,res,next){
 app.get('/search-materials',function(req,res,next){
     var context = {};
     context.layout = false;
-    // select name, purpose, url, version, license FROM program P inner join program_src PS ON PS.pid = P.id inner join src S on PS.sid = S.id;
-    /*
-      sql = `SELECT * FROM program WHERE (program.name LIKE "%"?"%");
-      SELECT * FROM author WHERE (author.name LIKE "%"?"%");
-      SELECT * FROM language WHERE (language.name LIKE "%"?"%");
-      SELECT * FROM os WHERE (os.name LIKE "%"?"%");
-      SELECT * FROM src WHERE (src.url LIKE "%"?"%");`
-    */
 
     sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%")`;
     inserts = [req.query.search];
@@ -112,18 +104,7 @@ app.get('/search-materials',function(req,res,next){
             return;
         }
         context.materials = rows; //JSON.stringify(rows);
-
-        sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%")`;
-        inserts = [req.query.search];
-
-        mysql.pool.query(sql,inserts, function(err, rows, fields){
-            if(err){
-                next(err);
-                return;
-            }
-            context.materials = rows; //JSON.stringify(rows);
-            res.render('search-materials', context);
-        });
+        res.render('search-materials', context);
     });
 });
 
@@ -222,6 +203,47 @@ app.get('/search-centers-materials',function(req,res,next){
         }
         context.materials = rows; //JSON.stringify(rows);
         res.render('search-centers-materials', context);
+    });
+});
+
+// home page (GET request)
+app.get('/search-all-centers',function(req,res,next){
+    var context = {};
+    context.layout = false;
+
+    sql = `SELECT * FROM centers WHERE (centers.name LIKE "%"?"%");`;
+
+    inserts = [req.query.search];
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.centers = rows; //JSON.stringify(rows);
+        res.render('search-all-centers', context);
+    });
+});
+
+// home page (GET request)
+app.get('/search-disposal',function(req,res,next){
+    var context = {};
+    context.layout = false;
+
+    sql = `SELECT M.name FROM centers_materials CM
+    INNER JOIN centers C ON C.id = CM.CID
+    INNER JOIN materials M ON M.id = CM.MID
+    WHERE (C.name = ?);`;
+
+    inserts = [req.query.search];
+
+    mysql.pool.query(sql,inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.disposal = rows; //JSON.stringify(rows);
+        res.render('search-disposal', context);
     });
 });
 
