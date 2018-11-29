@@ -95,7 +95,7 @@ app.get('/search-materials',function(req,res,next){
     var context = {};
     context.layout = false;
 
-    sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%")`;
+    sql = `SELECT * FROM materials WHERE (materials.name LIKE "%"?"%") ORDER BY materials.name;`;
     inserts = [req.query.search];
 
     mysql.pool.query(sql,inserts, function(err, rows, fields){
@@ -139,7 +139,7 @@ app.get('/search-centers',function(req,res,next){
     sql = `SELECT C.name, C.street_number, C.street_direction, C.street_name, C.street_type, C.city, C.state, C.zip FROM centers_materials CM
     INNER JOIN centers C ON C.id = CM.CID
     INNER JOIN materials M ON M.id = CM.MID
-    WHERE (M.name = ?);`;
+    WHERE (M.name = ?) ORDER BY C.name;`;
 
     inserts = [req.query.search];
 
@@ -192,7 +192,7 @@ app.get('/search-centers-materials',function(req,res,next){
     sql = `SELECT M.name FROM centers_materials CM
     INNER JOIN centers C ON C.id = CM.CID
     INNER JOIN materials M ON M.id = CM.MID
-    WHERE (C.name = ?);`;
+    WHERE (C.name = ?) ORDER BY M.name;`;
 
     inserts = [req.query.search];
 
@@ -211,7 +211,7 @@ app.get('/search-all-centers',function(req,res,next){
     var context = {};
     context.layout = false;
 
-    sql = `SELECT * FROM centers WHERE (centers.name LIKE "%"?"%");`;
+    sql = `SELECT * FROM centers WHERE (centers.name LIKE "%"?"%") ORDER BY centers.name;`;
 
     inserts = [req.query.search];
 
