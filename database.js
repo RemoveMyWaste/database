@@ -170,9 +170,11 @@ app.get('/search-schedules',function(req,res,next){
         ELSE "invalid day number"
     END AS day_of_week
     FROM centers C INNER JOIN schedules S ON C.id = S.cid
-    WHERE (C.name = ?);`;
+    WHERE (C.name = ""?"");`;
 
     inserts = [req.query.search];
+    console.log("req.query.search:", req.query.search);
+
 
     mysql.pool.query(sql,inserts, function(err, rows, fields){
         if(err){
