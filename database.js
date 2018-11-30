@@ -173,7 +173,7 @@ app.get('/search-schedules',function(req,res,next){
     WHERE (C.name = ""?"");`;
 
     inserts = [req.query.search];
-    console.log("req.query.search:", req.query.search);
+    console.log("schedules req.query.search:", req.query.search);
 
 
     mysql.pool.query(sql,inserts, function(err, rows, fields){
@@ -194,9 +194,10 @@ app.get('/search-centers-materials',function(req,res,next){
     sql = `SELECT M.name FROM centers_materials CM
     INNER JOIN centers C ON C.id = CM.CID
     INNER JOIN materials M ON M.id = CM.MID
-    WHERE (C.name = ?) ORDER BY M.name;`;
+    WHERE (C.name = ""?"") ORDER BY M.name;`;
 
     inserts = [req.query.search];
+    console.log("materials req.query.search:", req.query.search);
 
     mysql.pool.query(sql,inserts, function(err, rows, fields){
         if(err){
