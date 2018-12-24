@@ -98,6 +98,7 @@ p.inner {
 
 textarea {
     color: grey;
+    padding: 1em;
 }
 
 hr {
@@ -196,4 +197,8 @@ pre {
 div.border {
     border: 1px dashed grey;
     padding: 1em;
+}
+
+.checkbox {
+	width: unset;
 }
