@@ -10,7 +10,7 @@ Otherwise, you can (anonymously!) submit corrections or updates [here](https://r
 
 # Development
 
-Pull requets and forks welcome.
+Pull requests and forks welcome.
 
 ## To create database
 
