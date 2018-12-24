@@ -3,4 +3,5 @@ node_modules
 .nfs*
 tags
 dbcon.js
+issue-auth.js
 #*#
