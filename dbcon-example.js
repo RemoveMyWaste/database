@@ -1,12 +1,10 @@
-var mysql = require('mysql');
-
-var pool = mysql.createConnection({
+let dbcon = {
   connectionLimit : 10,
   host            : 'localhost',
   user            : 'USERNAME',
   password        : 'PASSWORD',
   database        : 'DATABASE',
-    multipleStatements: true
-});
+  multipleStatements: true
+};
 
-module.exports.pool = pool;
+module.exports = dbcon;
