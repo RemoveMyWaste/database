@@ -161,6 +161,7 @@ app.get('/search-centers',function(req,res,next){
     });
 });
 
+
 app.get('/search-schedules',function(req,res,next){
     var context = {};
     context.layout = false;
@@ -179,6 +180,7 @@ app.get('/search-schedules',function(req,res,next){
     FROM centers C INNER JOIN schedules S ON C.id = S.cid
     WHERE (C.name = ""?"");`;
 
+
     inserts = [req.query.search];
 
 
@@ -192,6 +194,7 @@ app.get('/search-schedules',function(req,res,next){
     });
 });
 
+//SELECT materials.name FROM materials INNER JOIN centers_materials ON centers_materials.mid = materials.id INNER JOIN centers on centers.id = centers_materials.cid WHERE Centers.name LIKE "%Cool%";
 app.get('/search-centers-materials',function(req,res,next){
     var context = {};
     context.layout = false;
@@ -213,6 +216,7 @@ app.get('/search-centers-materials',function(req,res,next){
     });
 });
 
+
 app.get('/search-all-centers',function(req,res,next){
     var context = {};
     context.layout = false;
@@ -230,6 +234,7 @@ app.get('/search-all-centers',function(req,res,next){
         res.render('search-all-centers', context);
     });
 });
+
 
 app.get('/search-disposal',function(req,res,next){
     var context = {};
@@ -266,7 +271,105 @@ app.get('/users',function(req,res,next){
     });
 });
 
+app.get('/materials-search',function(req,res,next){
+    var context = {};
+    sql = 'SELECT * FROM materials ORDER BY name';
+    pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.materials = rows;
+        context.table = "materials";
+        res.render('materials-search', context);
+    });
+});
+
+app.get('/centers-search',function(req,res,next){
+    var context = {};
+    sql = 'SELECT * FROM centers ORDER BY name';
+    pool.query(sql, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.centers = rows;
+        context.table = "centers";
+        res.render('centers-search', context);
+    });
+});
+
 app.get('/materials',function(req,res,next){
+    var context = {};
+    sql = 'SELECT * FROM materials WHERE id = ? ORDER BY name';
+    inserts = [req.query.id];
+    pool.query(sql, inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.materials = rows;
+
+        sql = `SELECT H.instructions FROM materials_handling MH
+        INNER JOIN materials M ON M.id = MH.mid
+        INNER JOIN handlingInstructions H ON H.id = MH.HID
+        WHERE (M.id = ?)`;
+
+        inserts = [req.query.id];
+        pool.query(sql, inserts, function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+            context.handling = rows;
+
+            sql = `SELECT D.instructions FROM materials_disposal MD
+            INNER JOIN materials M on M.id = MD.mid
+            INNER JOIN disposalInstructions D on D.id = MD.did
+            WHERE (M.id = ?);`;
+
+            inserts = [req.query.id];
+            pool.query(sql, inserts, function(err, rows, fields){
+                if(err){
+                    next(err);
+                    return;
+                }
+                context.disposal = rows;
+
+                sql = `SELECT C.* FROM centers_materials CM
+                INNER JOIN centers C ON C.id = CM.CID
+                INNER JOIN materials M ON M.id = CM.MID
+                WHERE (M.id = ?) ORDER BY C.name;`;
+
+                inserts = [req.query.id];
+                pool.query(sql, inserts, function(err, rows, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context.centers = rows;
+
+
+                    context.table = "materials";
+                    res.render('materials', context);
+                });
+            });
+        });
+    });
+});
+
+
+
+app.get('/about',function(req,res,next){
+    var context = {};
+    res.render('about', context);
+});
+
+app.get('/materials-dev',function(req,res,next){
+    sql = `SELECT H.instructions FROM materials_handling MH
+    INNER JOIN materials M ON M.id = MH.mid
+    INNER JOIN handlingInstructions H ON H.id = MH.HID
+    WHERE (M.name = ?)`;
     var context = {};
     sql = 'SELECT * FROM materials';
     pool.query(sql, function(err, rows, fields){
@@ -276,7 +379,7 @@ app.get('/materials',function(req,res,next){
         }
         context.materials = rows;
         context.table = "materials";
-        res.render('materials', context);
+        res.render('materials-dev', context);
     });
 });
 
@@ -310,7 +413,7 @@ app.get('/disposalInstructions',function(req,res,next){
     });
 });
 
-app.get('/centers',function(req,res,next){
+app.get('/centers-dev',function(req,res,next){
     var context = {};
     sql = 'SELECT * FROM centers';
     pool.query(sql, function(err, rows, fields){
@@ -320,7 +423,62 @@ app.get('/centers',function(req,res,next){
         }
         context.centers = rows;
         context.table = "centers";
-        res.render('centers', context);
+        res.render('centers-dev', context);
+    });
+});
+
+app.get('/centers',function(req,res,next){
+    var context = {};
+    sql = 'SELECT * FROM centers WHERE id = ?';
+    inserts = [req.query.id];
+    pool.query(sql, inserts, function(err, rows, fields){
+        if(err){
+            next(err);
+            return;
+        }
+        context.centers = rows;
+
+        sql = `
+        SELECT S.id, S.day_of_week, S.time_open, S.time_closed,
+            CASE
+        WHEN S.day_of_week = 1 THEN "sunday"
+        WHEN S.day_of_week = 2 THEN "monday"
+        WHEN S.day_of_week = 3 THEN "tuesday"
+        WHEN S.day_of_week = 4 THEN "wednesday"
+        WHEN S.day_of_week = 5 THEN "thursday"
+        WHEN S.day_of_week = 6 THEN "friday"
+        WHEN S.day_of_week = 7 THEN "saturday"
+        ELSE "invalid day number"
+        END AS day_of_week
+        FROM centers C INNER JOIN schedules S ON C.id = S.cid
+        WHERE cid = ?`;
+
+        inserts = [req.query.id];
+        pool.query(sql, inserts, function(err, rows, fields){
+            if(err){
+                next(err);
+                return;
+            }
+
+            context.schedules = rows;
+
+            sql = `SELECT M.name FROM centers_materials CM
+            INNER JOIN centers C ON C.id = CM.CID
+            INNER JOIN materials M ON M.id = CM.MID
+            WHERE C.id = ? ORDER BY M.name;`;
+
+            inserts = [req.query.id];
+            pool.query(sql, inserts, function(err, rows, fields){
+                if(err){
+                    next(err);
+                    return;
+                }
+
+                context.materials = rows;
+                context.table = "centers";
+                res.render('centers', context);
+            });
+        });
     });
 });
 
@@ -329,7 +487,7 @@ app.get('/centers',function(req,res,next){
 app.get('/schedules',function(req,res,next){
     var context = {};
     sql = `
-    SELECT S.id, S.day_of_week, S.time_open, S.time_closed, C.name as centers,
+    SELECT S.id, S.day_of_week, S.time_open, S.time_closed,
         CASE
     WHEN S.day_of_week = 1 THEN "sunday"
     WHEN S.day_of_week = 2 THEN "monday"
@@ -364,44 +522,15 @@ app.get('/schedules',function(req,res,next){
     });
 });
 
-app.get('/program-author',function(req,res,next){
-    var context = {};
-    sql = 'SELECT A.id AS aid, P.id AS pid, A.name AS aname, P.name AS pname FROM program_author PA INNER JOIN program P ON PA.pid = P.id INNER JOIN author A ON PA.aid = A.id';
-    pool.query(sql, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.program_author = rows;
-
-        sql = 'SELECT * FROM program';
-        pool.query(sql, function(err, rows, fields){
-            if(err){
-                next(err);
-                return;
-            }
-            context.program = rows;
-
-
-            sql = 'SELECT * FROM author';
-            pool.query(sql, function(err, rows, fields){
-                if(err){
-                    next(err);
-                    return;
-                }
-                context.author = rows;
-
-                context.table = "program_author";
-                res.render('program-author', context);
-            });
-        });
-    });
-});
-
-
 
 // home page (GET request)
 app.get('/',function(req,res,next){
+    var context = {};
+    res.render('home', context);
+});
+
+// dev page (GET request)
+app.get('/dev',function(req,res,next){
     var context = {};
     sql = 'SELECT COUNT(*) AS num FROM users';
     pool.query(sql, function(err, rows, fields){
@@ -450,7 +579,7 @@ app.get('/',function(req,res,next){
                                 return;
                             }
                             context.schedules = rows;
-                            res.render('home', context);
+                            res.render('dev', context);
                         });
                     });
                 });
@@ -459,62 +588,7 @@ app.get('/',function(req,res,next){
     });
 });
 
-// home page (GET request)
-app.get('/',function(req,res,next){
-    var context = {};
-    sql = 'SELECT * FROM users';
-    pool.query(sql, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.users = rows;
 
-        sql = 'SELECT * FROM materials';
-        pool.query(sql, function(err, rows, fields){
-            if(err){
-                next(err);
-                return;
-            }
-            context.materials = rows;
-
-            sql = 'SELECT * FROM centers';
-            pool.query(sql, function(err, rows, fields){
-                if(err){
-                    next(err);
-                    return;
-                }
-                context.centers = rows;
-
-                sql = 'SELECT * FROM hazards';
-                pool.query(sql, function(err, rows, fields){
-                    if(err){
-                        next(err);
-                        return;
-                    }
-                    context.hazards = rows;
-
-                    res.render('home', context);
-                });
-            });
-        });
-    });
-});
-
-
-// home page (POST request)
-app.post('/',function(req,res,next){
-    var context = {};
-    sql = 'SELECT * FROM program';
-    pool.query(sql, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.results = JSON.stringify(rows);
-        res.render('home', context);
-    });
-});
 
 app.get('/issues',function(req,res,next){
     var context = {};
@@ -596,18 +670,6 @@ app.post('/issues-submit', function(req,res){
 });
 
 
-app.get('/update',function(req,res,next){
-    var context = {};
-    sql = 'SELECT * FROM program';
-    pool.query(sql, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.results = JSON.stringify(rows);
-        res.send(context.results);
-    });
-});
 
 app.get('/insert',function(req,res,next){
     var context = {};
@@ -672,23 +734,7 @@ app.get('/delete',function(req,res,next){
 });
 
 
-///simple-update?id=2&name=The+Task&purpose=false&version=2015-12-5
-app.get('/simple-update',function(req,res,next){
-    var context = {};
-    sql = "UPDATE program SET name=?, purpose=?, url=?, version=?, license=? WHERE id=? ";
-    inserts = [req.query.name, req.query.purpose, req.query.url, req.query.version, req.query.license, req.query.id];
-    pool.query(sql, inserts, function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        context.results = "Updated " + result.changedRows + " rows.";
-        res.render('home',context);
-    });
-});
-
-
-///safe-update?id=1&name=The+Task&purpose=false
+// safe-update?id=1&name=The+Task&purpose=false
 app.get('/safe-update',function(req,res,next){
     var context = {};
     sql = "SELECT * FROM ?? WHERE id=?";
@@ -747,33 +793,6 @@ app.get('/safe-update',function(req,res,next){
 });
 
 
-
-///safe-update?id=1&name=The+Task&purpose=false
-app.get('/safe-update-pl',function(req,res,next){
-    var context = {};
-    sql = "SELECT * FROM ?? WHERE pid=? AND lid=?";
-    inserts = [req.query.table, req.query.pid, req.query.lid];
-    pool.query(sql, inserts, function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        if(result.length == 1){
-            var curVals = result[0];
-
-            sql = "UPDATE program_language SET pid=?, lid=? WHERE pid=? AND lid=?";
-            inserts = [req.query.pidnew || curVals.pidnew, req.query.lidnew || curVals.lid, req.query.pid || curVals.pid, req.query.lid || curVals.lidreq.query.id];
-            pool.query(sql, inserts, function(err, result){
-                if(err){
-                    next(err);
-                    return;
-                }
-                context.results = "Updated " + result.changedRows + " rows.";
-                res.render('home',context);
-            });
-        }
-    });
-});
 
 
 app.get('/reset-table',function(req,res,next){
@@ -907,84 +926,6 @@ app.get('/edit-schedules', function(req,res,next) {
     });
 });
 
-
-app.get('/edit-program-author', function(req,res,next) {
-    var context = {};
-    sql = 'SELECT A.id AS aid, P.id AS pid, A.name AS aname, P.name AS pname FROM program_author PA INNER JOIN program P ON PA.pid = P.id INNER JOIN author A ON PA.aid = A.id WHERE P.id = ? AND A.id = ?';
-    inserts = [req.query.pid, req.query.aid];
-    pool.query(sql, inserts , function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.program_author = rows;
-
-
-        sql = 'SELECT * FROM program';
-        pool.query(sql, function(err, rows, fields){
-            if(err){
-                next(err);
-                return;
-            }
-            context.program = rows;
-
-
-            sql = 'SELECT * FROM author';
-            pool.query(sql, function(err, rows, fields){
-                if(err){
-                    next(err);
-                    return;
-                }
-                context.author = rows;
-
-                context.table = "program_author";
-                res.render('edit-program-author.handlebars', context);
-            });
-        });
-    });
-});
-
-
-app.get('/edit-os', function(req,res,next) {
-    var context = {};
-    sql = 'SELECT * FROM os WHERE id=?';
-    inserts = [req.query.id];
-    pool.query(sql, inserts , function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.table = "os";
-        context.os = rows;
-        res.render('edit-os.handlebars', context);
-    });
-});
-
-
-app.get('/edit-src', function(req,res,next) {
-    var context = {};
-
-    sql = 'SELECT S.id, S.url, S.type, S.pid, P.name FROM src S INNER JOIN program P on S.pid = P.id WHERE S.id = ?;';
-    inserts = [req.query.id];
-    pool.query(sql, inserts, function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-        context.src = rows;
-
-        sql = 'SELECT * FROM program';
-        pool.query(sql, function(err, rows, fields){
-            if(err){
-                next(err);
-                return;
-            }
-            context.program = rows;
-            context.table = "src";
-            res.render('edit-src', context);
-        });
-    });
-});
 
 
 

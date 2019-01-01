@@ -19,7 +19,7 @@ body {
 }
 
 p, h1, h2, h3, span {
-    color: #4502cc;
+    color: #2a2730;
 }
 
 a:hover {
@@ -203,6 +203,7 @@ body {
 }
 
 
+/*
 button {
   width: 1.3em;
   height: 1.3em;
@@ -211,6 +212,47 @@ button {
 
 button:hover {
   border: 1px solid #FF357A; }
+*/
+
+div.select {
+    color: snow;
+    background-color: #151515;
+    padding: 1em;
+    width: 30%;
+    margin: 1em;
+    border: none;
+    text-align: center;
+    transition: 300ms;
+}
+
+div.select:hover {
+    background-color: #222;
+}
+
+#mapid { 
+    height: 50em;
+    //width: 70em;
+    border: 0.2em dashed grey;
+    overflow: auto;
+    resize: both
+}
+
+.title {
+    position: relative;
+}
+
+.title > a {
+position: absolute;
+
+top: 50%;
+
+transform: translateY(-50%);
+padding-left: 0.5em;
+}
+
+img {
+    width: 7%;
+}
 
 .light {
   background-color: whitesmoke;

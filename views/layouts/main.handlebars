@@ -1,68 +1,73 @@
 <!doctype html>
 <html>
-<head>
-    <title>RemoveMyWaste</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="form.css">
-    <link id="dark" rel="stylesheet" href="">
+    <head>
+        <title>RemoveMyWaste</title>
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="form.css">
+        <link id="dark" rel="stylesheet" href="dark.css">
 
-    <link rel="icon" type="image/png" href="iconLambda.png" />
-    <meta charset="utf-8">
-    <script type="text/javascript" src="/theme.js" async></script>
+        <link rel="icon" type="image/png" href="ic_launcher_round.png" />
+        <meta charset="utf-8">
+        <script type="text/javascript" src="/theme.js" async></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+         <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+   crossorigin=""></script>
 
-</head>
+    </head>
     <body>
 
 
 
-<div class="popstripe"></div>
-    <div class="style">
-        <span class="dot">·</span>
-        <button id="lightswitch" class="light" type="button">·</button>
-        <span class="dot">·</span>
-        <button id="darkswitch" class="dark" type="button">·</button>
-        <span class="dot">·</span>
-    </div>
-<div id="wrapper">
-    <div class="top">
-  <div class="search-container">
+        <div class="popstripe"></div>
+        <div class="style">
+            <span class="dot">·</span>
+            <button id="lightswitch" class="light" type="button">·</button>
+            <span class="dot">·</span>
+            <button id="darkswitch" class="dark" type="button">·</button>
+            <span class="dot">·</span>
+        </div>
+        <div id="wrapper">
+            <div class="top">
+                <!--<div class="search-container">
 
-    <form id="search" action="/search" method="get"
-        <label>
-            <input name="search" class="search" type="text" placeholder="Search everything">
-        </label>
-    </form>
-    </div>
-</div>
-
-
-
-<h1 class="title"><a href="/">RemoveMyWaste</a></h1>
-    <p>~ database testing ~</p>
+                <form id="search" action="/search" method="get"
+                <label>
+                <input name="search" class="search" type="text" placeholder="Search everything">
+                </label>
+                </form>
+                </div>-->
+        </div>
 
 
 
-<br />
-        {{{body}}}
+        <h1 class="title"><img src="ic_launcher_round.png" onclick="location.href='/'"><a href="/">RemoveMyWaste</a></h1>
 
 
-<div id="footer">
-<footer>
-<ul>
-    <li><a href="/docs">Made with lots of <object type="image/svg+xml" data="/heart.svg"></object></a> .:. <a href="https://github.com/cs361-group24"> open-source and free</a></li>
 
-<li class="poem"><pre>"...you must look within yourself to save yourself from your other self. Only then will your true self reveal itself." -Zuko</pre></li>
+            <br />
+            {{{body}}}
 
 
-</ul>
-</footer>
-</div>
-</div>
+            <div id="footer">
+                <footer>
+                    <ul>
+                        <li><a href="/docs">Made with lots of <object type="image/svg+xml" data="/heart.svg"></object></a> .:. <a href="https://github.com/cs361-group24"> open-source and free</a></li>
+
+                        <li class="poem"><pre>"...you must look within yourself to save yourself from your other self. Only then will your true self reveal itself." -Zuko</pre></li>
 
 
-<div class="popstripe-bw"></div>
+                    </ul>
+                </footer>
+            </div>
+        </div>
+
+
+        <div class="popstripe-bw"></div>
     </body>
 </html>
 
 <script src="align.js"></script>
-<script src="jquery.min.js"></script>
