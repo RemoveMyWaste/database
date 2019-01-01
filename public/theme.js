@@ -1,30 +1,36 @@
-let theme = localStorage.getItem("theme");
-if (theme == "dark") {
-    setDark();
-}
-
-else if (theme == "light") {
-    setLight();
-}
+// wait until the DOM before starting buttons
+document.addEventListener('DOMContentLoaded', theme);
 
 
-document.getElementById("darkswitch").onclick = function() {
-    setDark();
-};
+function theme() {
+    let theme = localStorage.getItem("theme");
+    if (theme == "dark") {
+        setDark();
+    }
 
-document.getElementById("lightswitch").onclick = function() {
-    setLight();
-};
+    else if (theme == "light") {
+        setLight();
+    }
 
 
-function setDark() {
-    localStorage.setItem("theme", "dark");
-    document.getElementById("dark").href = "/dark.css";
+    document.getElementById("darkswitch").onclick = function() {
+        setDark();
+    };
 
-}
+    document.getElementById("lightswitch").onclick = function() {
+        setLight();
+    };
 
-function setLight() {
-    localStorage.setItem("theme", "light");
-    document.getElementById("dark").href = "";
+
+    function setDark() {
+        localStorage.setItem("theme", "dark");
+        document.getElementById("dark").href = "/dark.css";
+
+    }
+
+    function setLight() {
+        localStorage.setItem("theme", "light");
+        document.getElementById("dark").href = "";
+    }
 }
 

@@ -7,7 +7,7 @@ p, h1, h2, h3, span, legend, pre, textarea, label{
     color: lightgrey;
 }
 
-input, input.submit, input.search, input.buttonEdit, input.buttonDelete, textarea {
+input, input.submit, input.search, input.buttonEdit, input.buttonDelete, textarea, #clear {
     background-color: #151515;
     border: 1px solid black;
     color: grey;
