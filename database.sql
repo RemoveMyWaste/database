@@ -38,22 +38,23 @@ CREATE TABLE centers(
     name varchar(255) NOT NULL,
 
     -- https://stackoverflow.com/questions/1159756/how-should-international-geographical-addresses-be-stored-in-a-relational-databas
-    street_number int(10) NOT NULL,
+    street_number int(10),
     street_direction varchar(2),
-    street_name varchar(255) NOT NULL,
-    street_type varchar(255) NOT NULL,
-    city varchar(255) NOT NULL,
-    state varchar(255) NOT NULL,
-    zip varchar(255) NOT NULL,
+    street_name varchar(255),
+    street_type varchar(255),
+    city varchar(255),
+    state varchar(255),
+    zip varchar(255),
     PRIMARY KEY(id)
 );
+
 
 -- https://stackoverflow.com/questions/2721533/sql-for-opening-hours
 CREATE TABLE schedules(
     id int(10) NOT NULL AUTO_INCREMENT,
     day_of_week int(1),
-    time_open TIME,
-    time_closed TIME,
+    time_open varchar(255),
+    time_closed varchar(255),
     cid int(10) NOT NULL,
     FOREIGN KEY(cid) REFERENCES centers(id),
     PRIMARY KEY(id)
@@ -65,7 +66,7 @@ CREATE TABLE materials(
     name varchar(255) NOT NULL,
 
     -- requires professional disposal
-    pro BOOLEAN,
+    pro BOOLEAN NOT NULL,
 
 
     PRIMARY KEY(id)
@@ -86,6 +87,7 @@ CREATE TABLE materials_disposal(
     FOREIGN KEY(did) REFERENCES disposalInstructions(id),
     PRIMARY KEY(mid, did)
 );
+
 
 CREATE TABLE centers_materials(
     cid int(10) NOT NULL,
