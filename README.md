@@ -1,6 +1,6 @@
 # Overview
 
-This is a hostable database of hazardous materials and disposal centers.
+This is the database that powers the web and android verisons of RemoveMyWaste.
 
 # Find something wrong in the database or want to add a new center?
 
@@ -21,7 +21,7 @@ CREATE USER 'group24'@'localhost' IDENTIFIED BY 'PASSWORD';
 GRANT ALL PRIVILEGES ON MaterialsDB.* to 'group24'@'localhost';
 ```
 
-## To login to database
+## To login and update the database
 
 ```sh
 mysql -u group24 -p MaterialsDB
@@ -30,20 +30,4 @@ mysql -u group24 -p MaterialsDB
 ```sql
 source database.sql
 \q
-```
-
-## To run the node server
-
-```sh
-cp dbcon-example.js dbcon.js
-nano dbcon.js 
-# add username and password info
-# add database name 
-
-cp issue-auth-example.js issue-auth.js
-nano issue-auth.js
-# add OAUTH key
-
-npm install
-nodemon database.js PORT
 ```
