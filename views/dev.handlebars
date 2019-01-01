@@ -1,0 +1,63 @@
+<h3>should work</h3>
+
+<p><a href="/users" class="name">/users</a> ⇢ virtual users used for development.</p>
+
+<p><a href="/materials" class="name">/materials</a> ⇢ see the materials or add a new one to the mix.</p>
+
+<p><a href="/handlingInstructions" class="name">/handlingInstructions</a> ⇢ instructions for safely handling and moving the materials.</p>
+
+<p><a href="/disposalInstructions" class="name">/disposalInstructions</a> ⇢ instructions for safely disposing of the materials.</p>
+
+<p><a href="/centers" class="name">/centers</a> ⇢ browse disposal center information.</p>
+
+<p><a href="/schedules" class="name">/schedules</a> ⇢ add new operating hours/schedule for the centers.</p>
+
+<hr />
+
+<h3>does not work yet</h3>
+
+<p><a href="/users_centers" class="name">/users_centers</a> ⇢ associate users to centers.</p>
+<p><a href="/users_centers" class="name">/users_materials</a> ⇢ associate users to materials.</p>
+
+
+<p><a href="/materials_handling" class="name">/materials_handling</a> ⇢ associate materials to handling instructions.</p>
+<p><a href="/materials_disposal" class="name">/materials_disposal</a> ⇢ associate materials to disposal instructions.</p>
+<hr />
+
+<p><a href="/database.sql" class="name">/sql</a> ⇢ sql file to populate this database.</p>
+
+<br />
+<br />
+<br />
+
+{{#each users}}
+    <ul class="main">{{num}} users</ul>
+{{/each}}
+<ul class="main">·</ul>
+
+{{#each materials}}
+    <ul class="main">{{num}} materials</ul>
+<ul class="main">·</ul>
+{{/each}}
+
+{{#each handlingInstructions}}
+    <ul class="main">{{num}} handling instructions</ul>
+<ul class="main">·</ul>
+{{/each}}
+
+{{#each disposalInstructions}}
+    <ul class="main">{{num}} disposal instructions</ul>
+<ul class="main">·</ul>
+{{/each}}
+
+{{#each centers}}
+    <ul class="main">{{num}} waste disposal centers</ul>
+<ul class="main">·</ul>
+{{/each}}
+
+{{#each schedules}}
+    <ul class="main">{{num}} schedules</ul>
+{{/each}}
+
+
+

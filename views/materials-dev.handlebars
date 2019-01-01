@@ -1,0 +1,129 @@
+{{error}}
+
+
+<h2>materials </h2>
+<p>⇢ hazardous!</p>
+<br />
+<br />
+
+
+<form action="/insert" method="get">
+<fieldset>
+  <legend>add new material</legend>
+    <label>
+      <span class="name">name</span>
+      <span> ⇢ </span>
+      <input size="20" name="name" placeholder="Upsidaisium" id="name" type="text_input">
+    </label>
+    <label>
+      <span class="name">pro</span>
+      <span> ⇢ </span>
+      <input size="20" name="pro" id="pro" type="checkbox">
+    </label>
+  <input class="submit" value="Submit" type="submit">
+</fieldset>
+</form>
+
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>pro</th>
+  </tr>
+  {{#each materials}}
+  <tr>
+    <td>{{id}}</td>
+    <td>{{name}}</td>
+    <td>{{pro}}</td>
+    <td>
+    <form action="/edit-materials" method="get">
+    <input value="Edit" class="buttonEdit" type="submit">
+    <input name="table" value="user" class="hidden-table" type="hidden">
+    <input name="id" value={{id}} class="hidden" type="hidden">
+    </form>
+    <form action="/delete" method="get">
+    <input value="Delete" class="buttonDelete" type="submit">
+    <input name="id" value={{id}} class="hidden-id" type="hidden"></form>
+    </td>
+  </tr>
+  {{/each}}
+</table>
+
+
+
+<script>
+// wait until the DOM before starting buttons
+document.addEventListener('DOMContentLoaded', bindButtons);
+
+function bindButtons(){
+
+    let buttonsSubmit = document.getElementsByClassName('submit');
+
+    for (let i = 0; i < buttonsSubmit.length; i++) {
+        buttonsSubmit[i].addEventListener('click', function(event){
+            //console.log("adding ev to submit button");
+            var req = new XMLHttpRequest();
+            event.preventDefault();
+
+            let name = document.getElementById("name").value;
+            console.log("@@ name:", name);
+
+            let proStatus = document.getElementById("pro").checked;
+            console.log("@@ proStatus:", proStatus);
+
+            let pro = -5;
+            if (proStatus == true) {
+                pro = 1;
+            }
+            else {
+                pro = 0;
+            }
+            console.log("pro: ", pro);
+
+            req.open('GET', '/insert?table=materials&name= ' + name + "&purpose=" + "&pro=" + pro, true);
+            req.onload = function() {
+                let res = req.responseText;
+                //update();
+                location.reload();
+            }
+
+            event.preventDefault();
+            req.send(null);
+
+
+        });
+    }
+
+        // hidden row id
+        let buttonsHidden = document.getElementsByClassName("hidden");
+
+
+        let buttonsDelete = document.getElementsByClassName("buttonDelete");
+
+        for (let i = 0; i < buttonsDelete.length; i++) {
+        console.log(buttonsHidden[i]);
+        buttonsDelete[i].addEventListener('click', function(event){;
+            console.log("adding ev to delete button");
+            event.preventDefault();
+            var req = new XMLHttpRequest();
+
+            console.log("/delete?table={{table}}&id=" + buttonsHidden[i].value);
+            req.open('GET', '/delete?table={{table}}&id=' + buttonsHidden[i].value, true);
+
+            req.onload = function() {
+                let res = req.responseText;
+                location.reload();
+            }
+
+            req.send(null);
+        });
+    };
+}
+
+
+</script>
+
+<!--<script src="tabler.js"></script>-->
+
+

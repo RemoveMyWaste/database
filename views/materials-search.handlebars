@@ -1,0 +1,19 @@
+{{error}}
+
+<h2>Material Name:</h2>
+
+<input type="text" name="query" placeholder="Search" id="my-search">
+<span id="clear">X</span>
+
+<h2>Search Results:</h2>
+<p>★ Disposal Center Required</p>
+
+{{#each materials}}
+{{#if pro}}
+<div tabindex="0" class="select" onclick="location.href='/materials?id={{id}}'">{{name}} ★</div>
+{{else}}
+<div tabindex="0" class="select" onclick="location.href='/materials?id={{id}}'">{{name}}</div>
+{{/if}}
+{{/each}}
+
+<script src="search.js"></script>

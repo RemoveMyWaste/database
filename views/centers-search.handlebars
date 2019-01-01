@@ -1,0 +1,16 @@
+{{error}}
+
+<h2>Center Name:</h2>
+
+<input type="text" name="query" placeholder="Search" id="my-search">
+<span id="clear">X</span>
+
+<h2>Search Results:</h2>
+
+{{#each centers}}
+<div tabindex="0" class="select" onclick="location.href='/centers?id={{id}}'">{{name}}
+<p>{{street_number}} {{street_direction}} {{street_name}} {{street_type}}, {{city}}, {{state}} {{zip}}</p></div>
+{{/each}}
+
+<script src="search.js"></script>
+
