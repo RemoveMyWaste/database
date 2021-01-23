@@ -15,7 +15,7 @@ Pull requests and forks welcome.
 ## To create database
 
 ```sql
-CREATE DATABASE MaterialsDB
+CREATE DATABASE MaterialsDB;
 USE MaterialsDB;
 CREATE USER 'group24'@'localhost' IDENTIFIED BY 'PASSWORD';
 GRANT ALL PRIVILEGES ON MaterialsDB.* to 'group24'@'localhost';
